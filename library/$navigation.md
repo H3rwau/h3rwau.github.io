@@ -35,3 +35,6 @@
 - [day14](?file=003-C笔记/14_day14 "day14")
 - [day15](?file=003-C笔记/15_day15 "day15")
 - [day16](?file=003-C笔记/16_day16 "day16")
+
+##### c++
+- [命名空间、const、以及malloc与new的区别](?file=004-c++/001-命名空间、const、以及malloc与new的区别 "命名空间、const、以及malloc与new的区别")
