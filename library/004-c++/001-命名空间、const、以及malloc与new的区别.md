@@ -1,4 +1,4 @@
-# C++学习笔记——1.命名空间、const、以及malloc与new的区别——2020.5.25
+# C++学习笔记——1.命名空间、const、以及malloc与new的区别
 
 ### 1、命名空间
 
@@ -85,7 +85,7 @@
    int cout(int x, int y)
    {
        std::cout << "int cout(int, int)" << std::endl;
-       std::cout << "x = " << x << ", y = " << y << std::endl; 
+       std::cout << "x = " << x << ", y = " << y << std::endl;
        return 0;
    }
    int main(int argc, char **argv)
@@ -116,7 +116,7 @@
    int cout(int x, int y)
    {
        std::cout << "int cout(int, int)" << std::endl;
-       std::cout << "x = " << x << ", y = " << y << std::endl; 
+       std::cout << "x = " << x << ", y = " << y << std::endl;
        return 0;
    }
    #endif
@@ -510,7 +510,7 @@ void test1()
     //void *====>int *
     void *pret = malloc(sizeof(int));
     int *pInt = static_cast<int *>(pret);
-    
+
     delete pInt;
 }
 void test2()
@@ -642,4 +642,3 @@ int main(int argc, char **argv)
     什么时候使用常引用：
     1、如果既要利用引用提高程序的效率，又要保护传递给函数的数据不在函数
     中被改变，就应使用常引用。
-
