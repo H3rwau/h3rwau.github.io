@@ -6,5 +6,3 @@
 
 ### 这是H3rwau的私人 amWiki 轻文库!
 —— **该个人文库包含本人学习CS路上的各类笔记与心得**  
-
-[ [amWiki 官网文档中心](https://amwiki.org/doc/) ]
