@@ -692,7 +692,7 @@ void test()
     };
     display(cities);
 #if 0
-    //multimap支持下标访问运算符
+    //multimap不支持下标访问运算符
     cout << endl;
     cout << "cities[1] = " << cities[1] << endl;//error
     cout << "cities[0] = " << cities[0] << endl;//error
