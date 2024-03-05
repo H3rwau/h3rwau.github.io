@@ -234,7 +234,7 @@ du  -h 当前目录占多少大小  --max-depth=0 深度调整
 
 
 
-文件查看和处理
+### 文件查看和处理
 
 cat 文件  -b对非空行编号 -E对每行结束加$（显示换行） -n对每行编号 -s将连续空行合并显示
 
@@ -416,68 +416,141 @@ cd ~/.ssh
 
 ssh-keygen 生成公钥和私钥
 
-
-
 cat id_rsa.pub >> .ssh/authorized_keys
 
 
 
+### shell上批量替换
 
+sed "s/int/float/g"  test.c （只显示修改后的结果，不修改实际内容）
 
-编译工具gcc
+sed "s/int/float/g"  test.c  -i   加-i参数修改实际内容
 
-源代码.c+头文件.h   -----预处理-----   编译.s -------- 汇编.o -------链接-----可执行程序
+### 文件对比
 
-预处理 gcc -E 源文件 -o 目标文件.i
-
-编译 gcc -s 源文件 -o 目标文件.s
-
--c 自动生成目标文件.o 仅执行编译，不进行链接
+vimdiff  [文件1]  [文件2]
 
 
 
 
 
-rbp base pointer
+### 编译工具gcc
 
-rsp stack pointer
+源代码.c+头文件.h   -----预处理(执行宏替换，执行包含头文件)-----   编译.s (把c语言转换成汇编语言)-------- 汇编.o(把汇编语言转换成二进制) -------链接（将二进制文件和库函数还有引导代码链接成可执行程序）-----可执行程序
 
+**预处理：** gcc **-E** 源文件 -o 目标文件.i
 
+**编译：** gcc **-s** 源文件 -o 目标文件.s
 
-as 汇编文件 -o 目标文件(二进制文件)
+**-c 自动生成.o目标文件**  **仅执行编译**，不进行链接
 
-nm 目标文件 (查看符号表)
+.s文件 ----.o文件
 
-
-
--I 目录名 指定头文件的目录
-
--D 宏名 相当于在代码头部添加了一个 #define 宏 设置一个开关，一份代码多份版本
+**as** 汇编文件 -o 目标文件(二进制文件)
 
 
 
-库
+**rbp** base pointer  栈底指针
 
-静态库 静态链接的时候，把库文件打包到程序卡里面 ，容易部署 难以升级体积大
+**rsp** stack pointer 栈顶指针
 
+nm 目标文件 (**查看符号表**) 
+
+在链接之前，地址是相对地址。
+
+链接的过程 将.o文件和.so文件(库文件)链接在一起，地址就能确定下来。
+
+gcc 目标文件 -o 可执行文件
+
+
+
+**-I** 目录名 指定头文件的目录
+
+**-D** 宏名 相当于在代码头部添加了一个 #define 宏 设置一个开关，一份代码多份版本
+
+**-Wall** 打开编译警告  -On(n是整数)  通常使用O2 
+
+
+
+
+
+### 库
+
+**静态库** 静态链接的时候，把库文件打包到程序卡里面 ，容易部署 难以升级体积大
+
+```
 1. gcc -c add.c 得到add.o
-2. 打包 ar crsv libadd.a add.o
+2. ar crsv libadd.a add.o 打包
 3. sudo cp libadd.a /usr/lib 将库文件放在库目录
 4. gcc -o main main.c -ladd 编译时加入库名
+```
 
-动态库 链接的时候，得库文件的位置，在运行时再加载到内存，难以部署，容易升级，体积小,dll
+**动态库** 链接的时候，得库文件的位置，在运行时再加载到内存，难以部署，容易升级，体积小,dll
 
  	1. gcc -c add.c -fpic 得到add.o
  	2. gcc -shared -o libadd.so add.o
  	3. sudo cp libadd.so /usr/lib
- 	4. gcc -o main main.c -ladd\
+ 	4. gcc -o main main.c -ladd
 
-ldd 查看依赖的动态库
+**ldd** 查看依赖的动态库
 
-版本更新 libadd.so 符号链接(软链接)
+
+
+**版本更新** libadd.so 符号链接(软链接)
 
 1. 删除原软链接
 2. 重新建立链接 ln -s
 
 sudo ln -s libadd.so.0.0.0 libadd.so
 
+
+
+
+
+### GDB调试器
+
+程序编译时， 要加上-g参数
+
+gcc -g main.c -o main
+
+gdb main
+
+list 或者 l 显示代码  可以加数字从第几行开始显示
+
+run  ,r运行
+
+break 9   ,b 9在第9行加断点 delete
+
+info break , info b查看断点
+
+s/step  f11
+
+n/next f10
+
+finish 退出当前函数
+
+c/continue 运行到下个断点
+
+p/print 监视
+
+x 查看内存 (help x)
+
+q 退出
+
+show args  查看命令行参数
+
+set args	设置命令行参数
+
+**bt** 查看调用堆栈
+
+
+
+### 段错误和core文件
+
+ulimit -a
+
+ulimit -c unlimited 将core 文件大小调整
+
+运行程序后出现core文件
+
+gdb ./wrong core
