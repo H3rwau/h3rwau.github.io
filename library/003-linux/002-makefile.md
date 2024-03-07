@@ -83,3 +83,26 @@ clean:
 %在规则的目标中，自动匹配上一个规则的依赖项
 
 内置函数
+
+
+
+命令`g++ -DDEBUG test.o main.o bitruss.o temporal_bipartite_graph.o beindex.o time.o -o main`是链接命令，它用于将多个对象文件（`.o`文件）链接为一个可执行文件。当你在这个阶段使用`-DDEBUG`时，它不会影响到链接的对象文件，因为这些文件在之前的编译阶段已经被编译成机器代码了，宏定义的添加应该发生在源代码编译阶段。
+
+另一方面，当你使用`gcc -DDEBUG *.c -o main`时，这是一个编译加链接的命令，它会首先处理`*.c`文件，这个过程中会考虑`-DDEBUG`宏定义，然后将得到的对象文件链接成可执行文件。在这个步骤中，`-DDEBUG`有效地添加了宏定义，因为它是在源代码被编译为对象代码之前。
+
+如果你想要在使用`g++`进行单独的编译步骤时添加宏定义，你应该在编译每个源文件（而不是链接对象文件）时添加`-DDEBUG`选项，例如：
+
+```bash
+g++ -DDEBUG -c test.c -o test.o
+g++ -DDEBUG -c main.c -o main.o
+# ... 对其他源文件执行相同的操作 ...
+```
+
+这样在编译时`DEBUG`宏就会被定义，然后你可以链接这些对象文件创建最终的可执行文件：
+
+```bash
+g++ test.o main.o bitruss.o temporal_bipartite_graph.o beindex.o time.o -o main
+```
+
+请确保在编译步骤中为所有需要的源文件添加`-DDEBUG`选项。
+
