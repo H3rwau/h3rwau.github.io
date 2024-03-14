@@ -1,6 +1,6 @@
-## Makefile
+# Makefile
 
-执行模式:增量编译
+执行模式:**增量编译**
 
 规则:目标文件 依赖文件命令
 
@@ -18,31 +18,62 @@
 
 每个.c文件形成一个.o文件
 
-makefile建立目标与依赖之间的关系，根据修改时间来决定命令是否执行
+**makefile 建立目标与依赖之间的关系，根据修改时间来决定命令是否执行**
 
-规则
+## 规则
 
 目标:依赖文件
 
-[tab] 命令
+[tab] 命令(命令是否执行，取决于目标与依赖文件的时间关系，且命令可以是多个命令)
+
+```makefile
+main:main.c
+	gcc main.c -o main
+```
+
+```makefile
+main:main.o
+	gcc main.o -o main
+main.o:main.c
+	gcc -c main.c -o main.o
+```
+
+以下为伪目标：
+
+.PHONY 类似是注释
+
+```makefile
+.PHONY: clean rebuild
+rebuild:clean main
+clean:
+	rm -rf main.o main
+```
 
 
 
 make 目标名 伪目标：这个目标是文件
 
-变量（起别名） 字符串替换
+### **变量**（起别名） **字符串替换**
 
-A=b 运行时替换
+A=b **运行时替换**
 
-A:=b 定义时替换
+A:=b **定义时替换**
 
 out:=main 其他地方写$(out)
 
 $(A)自定义变量
 
+### **预定义变量：**
+
+![](https://s21.ax1x.com/2024/03/13/pFct6Wq.png)
+
+```makefile
+CC:=gcc
+```
 
 
-自动变量：
+
+### **自动变量：**
 
 $@ 目标文件
 
@@ -58,9 +89,11 @@ $(@F) 目标文件的文件名部分
 
 
 
-内置函数
+### **内置函数**
 
 wildcard 对文件系统使用通配符
+
+subst 将某个变量的字符改变 subst substring replacement text
 
 patsubst (pattern ,replacement, text)将text的内容按模式进行替换
 
@@ -68,7 +101,7 @@ patsubst (pattern ,replacement, text)将text的内容按模式进行替换
 CC := gcc
 out := main.exe
 srcs := $(wildcard *.c)
-objs := $(srcs:%.c=%.o)
+#objs := $(srcs:%.c=%.o)
 objs := $(patsubst %.c,%.o,$(srcs))
 $(out):$(objs)
 	$(CC) $^ -o $@
@@ -80,11 +113,23 @@ clean:
 	rm -rf $(objs) $(out)
 ```
 
-%在规则的目标中，自动匹配上一个规则的依赖项
+%在规则的目标中，**自动匹配上一个规则的依赖项**
 
-内置函数
+**循环**
+
+```makefile
+LIST = one two three
+all:
+	for i in $(LIST);do echo $$i;done
+```
 
 
+
+
+
+
+
+**请确保在编译步骤中为所有需要的源文件添加`-DDEBUG`选项。**
 
 命令`g++ -DDEBUG test.o main.o bitruss.o temporal_bipartite_graph.o beindex.o time.o -o main`是链接命令，它用于将多个对象文件（`.o`文件）链接为一个可执行文件。当你在这个阶段使用`-DDEBUG`时，它不会影响到链接的对象文件，因为这些文件在之前的编译阶段已经被编译成机器代码了，宏定义的添加应该发生在源代码编译阶段。
 
@@ -104,5 +149,5 @@ g++ -DDEBUG -c main.c -o main.o
 g++ test.o main.o bitruss.o temporal_bipartite_graph.o beindex.o time.o -o main
 ```
 
-请确保在编译步骤中为所有需要的源文件添加`-DDEBUG`选项。
+
 
