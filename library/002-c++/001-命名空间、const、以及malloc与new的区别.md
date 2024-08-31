@@ -233,6 +233,16 @@
 
 ### 2、const，以及const和指针的搭配
 
+//宏定义：发生时机在预处理阶段，只是进行简单的字符串替换
+
+const常量是发生在编译时
+
+//如果有bug，宏定义没有做类型检查，只能到运行时候才会发现
+
+C++ 11标准中，为了**解决 const 关键字的双重语义问题**，保留了 const 表示“只读”的语义，而将“常量”的语义划分给了新添加的 constexpr 关键字。因此 C++11 标准中，建议将 const 和 constexpr 的功能区分开，**即凡是表达“只读”语义的场景都使用 const，表达“常量”语义的场景都使用 constexpr。**
+
+原文链接：https://blog.csdn.net/wzz953200463/article/details/116176071
+
 ```c++
 #include <iostream>
 
