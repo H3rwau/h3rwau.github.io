@@ -1,0 +1,2137 @@
+
+
+<!DOCTYPE html>
+<html lang="zh" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAP - H3rwau的个人笔记和随笔</title>
+    <!-- 基础 SEO meta 标签 -->
+<meta name="description" content="Seeking realistic romanticism in the ridiculous world.">
+<meta name="keywords" content="">
+<meta name="author" content="PageForge">
+
+    <link rel="icon" href="/assets/obito.svg" type="image/x-icon">
+
+    <!-- 基础样式文件 -->
+    <link rel="stylesheet" href="/assets/pageforge.min.css">
+
+    <script>
+        (function () {
+            document.addEventListener('click', function (e) {
+                var link = e.target.closest('a');
+                if (!link) {
+                    return;
+                }
+
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('http') || href.startsWith('#')) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                // 获取当前路径信息
+                const pathParts = window.location.pathname.split('/').filter(Boolean);
+                let version = null;
+                let lang = null;
+
+                // 解析当前 URL 中的版本和语言信息
+                if (pathParts.length > 0) {
+                    if (/^\d+\.\d+(\.\d+)?$/.test(pathParts[0]) || pathParts[0] === 'current') {
+                        version = pathParts[0];
+                        lang = pathParts[1];
+                    }
+                    else {
+                        lang = pathParts[0];
+                    }
+                }
+
+                // 构建 404 页面路径
+                let notFoundPath = '';
+                if (version) {
+                    notFoundPath += '/' + version;
+                }
+                if (lang) {
+                    notFoundPath += '/' + lang;
+                }
+                notFoundPath += '/404.html';
+
+                fetch(href)
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = href;
+                        }
+                        else {
+                            window.location.href = notFoundPath;
+                        }
+                    })
+                    .catch(() => {
+                        window.location.href = notFoundPath;
+                    });
+            });
+        })();
+    </script>
+
+    <!-- 加载主题配置中的额外 CSS 文件 -->
+    
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Prism.js 语法高亮样式 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-ghcolors.css" rel="stylesheet"/>
+
+    <!-- 统计代码 -->
+    
+        <script defer src="https://tj.devlive.org/script.js" data-website-id="370c42b5-f356-45b4-aade-cd2d920d41ab"></script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"KhuPJkgSiYG5j4Xr",ck:"KhuPJkgSiYG5j4Xr",autoTrack:true,hashMode:true,screenRecord:true})</script>
+
+    
+
+    <!-- Mermaid 图表 -->
+    
+
+    <!-- KaTeX 数学公式 -->
+    
+</head>
+
+<body class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<div class="flex flex-col min-h-screen">
+    
+        
+
+<header>
+    <nav class="fixed top-0 w-full bg-white dark:bg-gray-800 border-b z-40">
+        <!-- Banner -->
+        
+
+        <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo和导航 -->
+                <div class="flex items-center flex-1 min-w-0">
+                    <!-- Logo和标题 -->
+                    
+<div class="flex items-center space-x-4 shrink-0 lg:mr-8">
+    
+        <a href="/" class="flex items-center">
+            <img src="/assets/obito.svg"
+                 alt="H3rwau的个人笔记和随笔"
+                 class="h-10 w-auto object-contain transition-transform hover:scale-105">
+        </a>
+    
+    <a href="/"
+       class="text-xl font-bold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+        
+    </a>
+</div>
+
+                    <!-- 桌面端导航 -->
+                    <div class="hidden lg:flex items-center gap-2 overflow-x-auto py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+    <ul class="flex items-center gap-2 shrink-0">
+        
+            <li class="shrink-0">
+                <a href="/index.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    首页
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/随笔/读研这三年的感悟.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    随笔
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/c++/C++核心技术：C++惯用法.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    CPP
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/操作系统相关/复杂指令集和简单指令集.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    操作系统
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/网络相关/TCPIP模型和OSI模型的区别.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    网络
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/mysql相关/基本SQL语句.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    mysql
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/redis相关/基本.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    redis
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/消息队列相关/UUID.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    消息队列
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/分布式/CAP.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20 font-medium">
+                    分布式
+                </a>
+            </li>
+        
+    </ul>
+</div>
+                </div>
+
+                <!-- 右侧工具栏 -->
+                <div class="flex items-center gap-2 lg:gap-4">
+                    <!-- 搜索框 -->
+                    
+    <!-- 搜索按钮 -->
+    <button type="button"
+            class="ml-2 p-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            id="search-trigger">
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <kbd class="hidden sm:inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium text-gray-500 dark:text-gray-400 dark:border-gray-700">
+                <span class="text-xs">⌘</span>K
+            </kbd>
+        </div>
+    </button>
+
+    <!-- 搜索弹窗 -->
+    <div id="search-dialog"
+         data-version=""
+         class="fixed inset-0 z-50 bg-gray-500/70 items-start justify-center p-4 sm:p-6 md:p-20 hidden"
+         aria-modal="true"
+         role="dialog">
+        <!-- 弹窗内容 -->
+        <div class="mx-auto max-w-2xl w-full relative">
+            <!-- 搜索框和结果区域 -->
+            <div class="overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800">
+                <!-- 搜索框组 -->
+                <div class="relative border-b dark:border-gray-700">
+                    <!-- 搜索图标 -->
+                    <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                        <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+
+                    <!-- 搜索输入框 -->
+                    <input type="text"
+                           id="site-search"
+                           class="block h-12 w-full rounded-none border-0 py-3 pl-10 pr-12 text-gray-900 outline-none dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-transparent focus:outline-none focus:ring-0 sm:text-sm focus:bg-blue-50/5"
+                           placeholder="搜索文档..."
+                           autocomplete="off"
+                           spellcheck="false"/>
+
+                    <!-- 快捷键提示 -->
+                    <div class="absolute inset-y-0 right-3 flex items-center">
+                        <kbd class="hidden sm:inline-flex h-5 items-center rounded border px-1.5 font-mono text-[10px] font-medium text-gray-400 dark:text-gray-500 dark:border-gray-600">
+                            ESC
+                        </kbd>
+                    </div>
+                </div>
+
+                <!-- 搜索结果区域 -->
+                <div id="search-results"
+                     class="max-h-[32rem] scroll-py-3 overflow-y-auto p-3">
+                    <!-- 初始提示 -->
+                    <div class="search-empty-state px-6 py-14 text-center text-sm sm:px-14">
+                        <svg class="mx-auto h-6 w-6 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <p class="mt-4 text-gray-500 dark:text-gray-400">开始输入关键词搜索...</p>
+                        <p class="mt-2 text-xs text-gray-400 dark:text-gray-500">按 ESC 关闭</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                    <!-- 版本选择器 -->
+                    <!-- 版本切换器 -->
+
+
+                    <!-- 桌面端主题切换按钮 -->
+                    
+                        <button type="button"
+                                data-theme-toggle
+                                class="hidden lg:flex items-center justify-center p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <!-- 太阳图标 -->
+                            <svg class="w-5 h-5 sun-icon hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                            <!-- 月亮图标 -->
+                            <svg class="w-5 h-5 moon-icon block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
+                        </button>
+                    
+
+                    <!-- 语言切换器 -->
+                    
+
+                    <!-- 仓库链接 -->
+                    <div class="hidden lg:block">
+                        
+    <div class="hidden lg:flex items-center space-x-4 text-sm" id="github-stats-desktop">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="inline-flex flex-col items-center gap-0.5">
+                <div class="inline-flex items-center gap-1">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="space-x-2" id="repo-stats">
+                    <!-- 初始显示配置的值 -->
+                    <div class="inline-flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 移动端仓库信息 -->
+    <div class="lg:hidden px-3 py-2" id="github-stats-mobile">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="flex flex-wrap gap-3" id="repo-stats-mobile">
+                    <div class="flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // 初始化 GitHub Stats
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.PageForge && window.PageForge.GitHubStats) {
+                // 同时初始化桌面端和移动端
+                window.PageForge.GitHubStats.init('h3rwau', 'h3rwau.github.io', {
+                    desktopStatsId: 'repo-stats',
+                    mobileStatsId: 'repo-stats-mobile'  // 添加移动端容器ID
+                });
+            }
+        });
+    </script>
+
+                    </div>
+
+                    <!-- 移动端控制区 -->
+                    <div class="flex items-center gap-2 lg:hidden">
+                        <!-- 深色模式切换按钮 - 只在启用时显示 -->
+                        
+                            <button type="button"
+                                    data-theme-toggle
+                                    class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                                <svg class="w-6 h-6 sun-icon hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                    </path>
+                                </svg>
+                                <svg class="w-6 h-6 moon-icon block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                    </path>
+                                </svg>
+                            </button>
+                        
+
+                        <!-- 移动端菜单切换 -->
+                        <button type="button"
+                                data-menu-toggle
+                                class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                            <svg class="h-6 w-6 menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6 close-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端菜单 -->
+        <div class="hidden lg:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-2 border-t dark:border-gray-700">
+                
+                    <a href="/index.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        首页
+                    </a>
+                
+                    <a href="/随笔/读研这三年的感悟.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        随笔
+                    </a>
+                
+                    <a href="/c++/C++核心技术：C++惯用法.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        CPP
+                    </a>
+                
+                    <a href="/操作系统相关/复杂指令集和简单指令集.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        操作系统
+                    </a>
+                
+                    <a href="/网络相关/TCPIP模型和OSI模型的区别.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        网络
+                    </a>
+                
+                    <a href="/mysql相关/基本SQL语句.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        mysql
+                    </a>
+                
+                    <a href="/redis相关/基本.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        redis
+                    </a>
+                
+                    <a href="/消息队列相关/UUID.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        消息队列
+                    </a>
+                
+                    <a href="/分布式/CAP.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20">
+                        分布式
+                    </a>
+                
+
+                <!-- 移动端版本切换 -->
+                
+
+                <!-- 移动端语言切换 -->
+                
+
+                <!-- 移动端的仓库链接 -->
+                <div class="px-3 py-2 border-t dark:border-gray-700">
+                    
+    <div class="hidden lg:flex items-center space-x-4 text-sm" id="github-stats-desktop">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="inline-flex flex-col items-center gap-0.5">
+                <div class="inline-flex items-center gap-1">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="space-x-2" id="repo-stats">
+                    <!-- 初始显示配置的值 -->
+                    <div class="inline-flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 移动端仓库信息 -->
+    <div class="lg:hidden px-3 py-2" id="github-stats-mobile">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="flex flex-wrap gap-3" id="repo-stats-mobile">
+                    <div class="flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // 初始化 GitHub Stats
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.PageForge && window.PageForge.GitHubStats) {
+                // 同时初始化桌面端和移动端
+                window.PageForge.GitHubStats.init('h3rwau', 'h3rwau.github.io', {
+                    desktopStatsId: 'repo-stats',
+                    mobileStatsId: 'repo-stats-mobile'  // 添加移动端容器ID
+                });
+            }
+        });
+    </script>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+    
+
+    <!-- 移动端菜单按钮 -->
+    
+        <button class="md:hidden fixed left-4 bottom-4 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg"
+                onclick="document.getElementById('sidebar-menu').classList.remove('-translate-x-full');
+                         document.getElementById('sidebar-overlay').classList.remove('hidden');">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    
+
+    <div class="pt-[--header-height] w-full">
+        <div class="container mx-auto px-4 py-4 md:py-8 flex-grow flex flex-col md:flex-row">
+            <!-- 左侧列表 -->
+            
+                <aside class="fixed md:relative md:w-56 lg:w-64 flex-shrink-0 md:pr-4 lg:pr-8
+                         inset-y-0 left-0 transform -translate-x-full md:translate-x-0
+                         transition duration-200 ease-in-out
+                         md:block z-30 bg-white dark:bg-gray-900 md:bg-transparent
+                         w-3/4 sm:w-64 top-[--header-height] md:top-auto"
+                       id="sidebar-menu">
+                    <div class="h-16 md:hidden flex items-center justify-end px-4 border-b dark:border-gray-800">
+                        <button class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                                onclick="document.getElementById('sidebar-menu').classList.add('-translate-x-full');
+                                     document.getElementById('sidebar-overlay').classList.add('hidden');">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="md:sticky p-4 md:p-0">
+                        <div class="space-y-4">
+                            
+
+
+
+
+
+
+    <div class="text-[0.9375rem] text-gray-600 dark:text-gray-300 overflow-y-auto max-h-[calc(100vh-4rem)] pageforge-scrollbar
+                sm:max-h-screen md:h-auto lg:max-h-[calc(100vh-2rem)]">
+        <div class="mb-6 overflow-x-auto min-w-0">
+            <div class="min-w-fit">
+                
+    <ul class="space-y-1.5">
+        
+            <li class="relative">
+                
+                    <a href="/分布式/CAP.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20 font-medium
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>CAP</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式事务.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式事务</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式锁.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式锁</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/一致性哈希.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>一致性哈希</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/两阶段提交和三阶段提交.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>两阶段提交和三阶段提交</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/LCN解决方案.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>LCN解决方案</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/TCC解决方案.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>TCC解决方案</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式ID生成器.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式ID生成器</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式幂等性.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式幂等性</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/BASE理论.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>BASE理论</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/消息队列加本地事件表.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>消息队列加本地事件表</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/可靠消息最终一致性方案.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>可靠消息最终一致性方案</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/负载均衡.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>负载均衡</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/限流算法.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>限流算法</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/数据库如何处理大数据.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>数据库如何处理大数据</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/熔断和降级.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>熔断和降级</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/注册中心.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>注册中心</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/如何提高系统的并发能力.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>如何提高系统的并发能力</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/如何进行服务划分.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>如何进行服务划分</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/服务治理.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>服务治理</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/seata.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>seata</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/付钱和扣库存的一致性.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>付钱和扣库存的一致性</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分库分表面经.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分库分表面经</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+    </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(button) {
+            const submenu = button.nextElementSibling;
+            const arrow = button.querySelector('svg');
+
+            // 切换子菜单的类
+            if (submenu.classList.contains('max-h-0')) {
+                submenu.classList.remove('max-h-0', 'opacity-0');
+                submenu.classList.add('max-h-96', 'opacity-100');
+                arrow.classList.add('rotate-90');
+            } else {
+                submenu.classList.add('max-h-0', 'opacity-0');
+                submenu.classList.remove('max-h-96', 'opacity-100');
+                arrow.classList.remove('rotate-90');
+            }
+        }
+    </script>
+
+                        </div>
+                    </nav>
+                </aside>
+            
+
+            <!-- 中间内容 -->
+            <main class="flex-grow w-full md:w-2">
+                <article class="prose dark:prose-invert lg:prose-lg mx-auto
+                          max-w-none md:max-w-2xl lg:max-w-full">
+                    <!-- 页面容器 -->
+<div class="relative lg:flex lg:gap-8">
+    <!-- 主要内容区域 -->
+    <div class="min-w-0 flex-1">
+        <!-- 页面标题部分 -->
+        <div class="mb-8">
+            
+    <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl lg:text-3xl">
+            CAP
+        </h1>
+
+        <div class="flex items-center gap-4">
+            <!-- 字体大小控制按钮 -->
+            
+
+            <!-- 分享按钮 -->
+            
+
+            <!-- 编辑源码 -->
+            
+
+            <!-- 查看源码 -->
+            
+        </div>
+    </div>
+
+    <!-- 阅读时间 -->
+    <div class="mt-2 flex flex-wrap items-center gap-4">
+        
+    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>15 分钟阅读</span>
+        
+            <span class="mx-1">•</span>
+            <span>
+                
+                    1834 字
+                
+                
+                    +
+                
+                
+                    910 词
+                
+            </span>
+        
+    </div>
+
+    </div>
+
+    
+
+    <!-- 标签展示区域 -->
+    
+
+        </div>
+
+        <!-- 主要内容部分 -->
+        <div class="prose prose-gray dark:prose-invert max-w-none text-base">
+            
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">以下来自 </span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://writings.sh/post/cap-and-consistency-models"
+           target="_self"
+           title="">
+            分布式的 CAP 定理和一致性模型 | 春水煎茶 (writings.sh)
+        </a>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">对于一个数据存储系统，它具有以下美好的性质：</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可用性</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">： </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">收到请求总会响应</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。
+</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">一致性</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">： 两次读请求，总会返回一致的结果。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">在单节点系统中，达到这两条性质并不难</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">然而，单节点系统有以下问题：</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">服务能力有限。</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">
+</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">单点风险： 一旦这个节点故障，整个系统将不可用。</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="zai-wang-luo-fa-sheng-fen-qu-de-qing-kuang-xia-wo-men-bi-xu-zai-ke-yong-xing-he-yi-zhi-xing-zhi-jian-zuo-chu-xuan-ze" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">在网络发生分区的情况下，我们必须在可用性和一致性之间做出选择。</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">我们可以使用主从结构，从节点不提供服务，只作为数据备份</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 网络分区发生的时候，无论</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">同步还是异步的方式，如果不放弃可用性，都不能保证一致性。</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 定理 
+经过前面的一番讨论之后，所谓「CAP 定理」已经呼之欲出了。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 定理又叫做布鲁斯定理, 该定理源于埃里克·布鲁尔在2000年的分布式计算原理研讨会上提出的一个猜想， 在2002年麻省理工学院的Gilbert和Lynch发表了证明[1]，使之成为一个定理：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="fen-bu-shi-xi-tong-bu-ke-neng-tong-shi-bao-zheng-yi-zhi-xing-Consistency-ke-yong-xing-Availability-he-fen-qu-rong-ren-xing-Partitiontolerance" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统不可能同时保证 一致性(Consistency)、 可用性(Availability) 和 分区容忍性(Partition tolerance)。</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">这就是所谓「CAP」的名字由来，我们只能在 C,A,P 中三个性质中选两个。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">这个定理也可以表达为： </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">在网络分区发生的情况下，分布式系统不能同时保证一致性和可用性。 除非是单节点系统， 否则无法同时保证 CA</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">这个结论在分布式领域已经耳熟能详， 不过， 关于 CAP 定理，需要特别注意搞清楚以下两点：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 定理范畴下的一致性、可用性、分区的概念都是 非常狭义的 。
+CAP 所说的</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">一致性其实是 线性一致性。</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">
+CAP 所说的</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可用性其实是非常高的可用性。</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">
+**分区现象在现实网络中不可避免，**也就是说，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">现实中我们只能在 C和 A中做选择</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。
+CAP 其实在说 强一致性和高可用性，二者择其一 。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="fen-qu-rong-ren-xing-Partitiontolerance" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">分区容忍性 | Partition tolerance</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">在前面的讨论中，我们曾多次提到「分区现象」， 正是这个问题导致我们无法同时具备一致性和可用性上。 要了解分区容忍性，就要先了解什么是分区现象。</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">当两个节点之间的网络不再连通，相当于分成了几块分区，所以叫做分区现象。</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">分区所强调的是 节点间的不连通问题，即使每个节点都可以工作 。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">简单来说，Partition != Crash。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">节点故障一般会造成节点的无响应，导致分区出现， 但是分区的出现不一定代表节点真的故障（宕机）了。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="zai-fen-bu-shi-xi-tong-zhong-fen-qu-rong-ren-xing-shi-zhi-ji-shi-fen-qu-xian-xiang-fa-sheng-xi-tong-reng-ran-ke-yi-gong-zuo-de-xing-zhi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">在分布式系统中， </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分区容忍性是指即使分区现象发生，系统仍然可以工作的性质。</span>
+    </strong></div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">现实中的分布式网络，丢包、延迟、中断都是存在的， 所以在实际的系统设计中，分区容忍性是必选的。 也就是说，我们只能在可用性和一致性这两个性质中做选择。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="ke-yong-xing-Availability" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">可用性 | Availability</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">先用最直观地方式理解下其含义：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="zai-fen-bu-shi-xi-tong-zhong-ke-yong-xing-shi-zhi-mei-ci-qing-qiu-du-neng-huo-qu-dao-fei-cuo-de-xiang-ying-de-xing-zhi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">在分布式系统中，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可用性是指每次请求都能获取到非错的响应的性质。</span>
+    </strong></div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">Availability = Reads and writes always succeed.</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">可用性并没有要求读到的数据的正确性，只描述了系统可以总可以非错的工作的能力。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 也就是说，在 CAP 的范畴下，如果一个系统没有做好故障转移的逻辑， 那么这个系统不具备可用性。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 定理中的可用性的定义，可以说很强，也可以说很弱：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">很强，是因为要求必须响应 100% 的请求。
+很弱，是因为并没有要求响应的时限，只需要最终返回。
+而通常我们对系统的响应时限是有要求的， 所以说 CAP 定理中的可用性的条件很强， 在 CAP 的理论范畴下，没有「可用性的强弱程度」一说。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">综合看来， CAP 定理中对可用性的定义是狭义的。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">在实际中，可用性却不是一个非黑即白的简单判定， 和工程上对一致性的概念类似，存在不同可用性高低之分的说法。 我们常说的高可用性 high availability， 一般是指部分节点损失后整个系统仍可以正常工作。 要达成高可用性，就必须做好故障转移。 所以我们也可以说， CAP 定理中的可用性其实是我们所说的高可用性，而且是最高的可用性 。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="yi-zhi-xing-Consistency" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">一致性 | Consistency</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">简单直观地理解是： 分布式系统中多个节点的数据返回始终一致的性质。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">Consistency = two reads return the same value.</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">所有节点在同一时刻的看到的数据是一样的。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 定理中的一致性，要求所有节点都可以看到最新修改的数据。 其实这个要求是非常强的， 我们接下来会讨论一致性的模型， CAP 中的 C 就是强一致性中的线性一致性 。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">一致性的分类 
+实际中，一致性也不是非黑即白的性质， 而是有强弱之分。 人们对一致性的研究和实践中， 按照强弱程度建立了一致性模型。 一致性按强弱程度可以分为三类：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="ruo-yi-zhi-xing" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">弱一致性</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">After a write, reads may or may not see it.</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">向系统写入一个值后，后续的读操作可能读出来，也可能读不出来。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="zui-zhong-yi-zhi-xing" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">最终一致性</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">After a write, reads will eventually see it.</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">向系统写入一个值后，后续立刻的读操作可能读不出来，但是</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">在某个时间段后，读取一定成功</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。 例如，读写分离的关系型数据库。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="qiang-yi-zhi-xing" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">强一致性</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">After a write, reads will always see it.</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">向系统写入一个值后，后续任意时刻的读取一定成功。</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="CP-huo-zhe-AP-bing-bu-shi-jue-dui-de-xuan-ze-ti" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">「CP 或者 AP」 并不是绝对的选择题</span>
+    </div>
+        </div>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">在实际的分布式系统设计中，我们无法同时达成强一致性和高可用性。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 定理是我们在设计一个分布式系统之初时的一个有益参考， 它让我们在设计系统的时候不必浪费时间去寻求理论上都达不成的目标。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">CAP 范畴下的一致性和可用性的定义其实是非常狭义的、非常精确的， 它所讨论的是非常极限的情况， CAP 只否定了我们没办法同时达成最强的一致性和最高的可用性。 </span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="zai-shi-ji-zhong-yi-ge-fen-bu-shi-xi-tong-gen-ben-bu-ke-neng-wan-quan-fang-qi-C-huo-zhe-wan-quan-fang-qi-A-wo-men-yao-zuo-de-shi-xuan-ze-nei-ge-duo-yi-dian" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">在实际中，一个分布式系统根本不可能完全放弃 C、或者完全放弃 A， 我们要做的是选择哪个多一点。</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">选择 C 多一些的情况</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">为了实现更强的一致性，这个系统可能会在某些情况下拒绝服务、甚至直接关闭节点。 实例中，比较偏好 C 的有 Zookeeper，Hbase，MongoDB 等。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">选择 A 多一些的情况</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">为了实现更高的可用性，这个系统必须做好故障转移，尽可能地响应所有请求，但是有可能返回不一致的结果。 实例中，比较偏好A的是有D ynamo，CouchDB，Riak，Cassandra 等。</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">没有绝对的选择和放弃，只有更偏好哪个和弱化哪个的说法。</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        </div>
+
+        <div class="clear-both"></div>
+
+        <!-- Git 信息部分 -->
+        
+
+        <!-- 贡献者信息 -->
+        
+
+        <!-- 评论部分 -->
+        
+    </div>
+</div>
+                </article>
+            </main>
+
+            <!-- 右侧目录 -->
+            
+                <!-- 桌面端目录 -->
+<div class="hidden lg:block flex-none md:w-56 lg:w-64 pl-8 mr-8">
+    <div class="sticky" style="top: calc(var(--header-height) + 1rem)">
+        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">目录</div>
+        <div class="overflow-y-auto overflow-x-auto pr-4 pageforge-scrollbar"
+             style="max-height: calc(100vh - var(--header-height) - 8rem);">
+            <nav class="space-y-1 inline-block min-w-full"
+                 id="table-of-contents">
+                
+                
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#zai-wang-luo-fa-sheng-fen-qu-de-qing-kuang-xia-wo-men-bi-xu-zai-ke-yong-xing-he-yi-zhi-xing-zhi-jian-zuo-chu-xuan-ze"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="zai-wang-luo-fa-sheng-fen-qu-de-qing-kuang-xia-wo-men-bi-xu-zai-ke-yong-xing-he-yi-zhi-xing-zhi-jian-zuo-chu-xuan-ze">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">在网络发生分区的情况下，我们必须在可用性和一致性之间做出选择。</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#fen-bu-shi-xi-tong-bu-ke-neng-tong-shi-bao-zheng-yi-zhi-xing-Consistency-ke-yong-xing-Availability-he-fen-qu-rong-ren-xing-Partitiontolerance"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="fen-bu-shi-xi-tong-bu-ke-neng-tong-shi-bao-zheng-yi-zhi-xing-Consistency-ke-yong-xing-Availability-he-fen-qu-rong-ren-xing-Partitiontolerance">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统不可能同时保证 一致性(Consistency)、 可用性(Availability) 和 分区容忍性(Partition tolerance)。</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#fen-qu-rong-ren-xing-Partitiontolerance"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="fen-qu-rong-ren-xing-Partitiontolerance">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">分区容忍性 | Partition tolerance</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#zai-fen-bu-shi-xi-tong-zhong-fen-qu-rong-ren-xing-shi-zhi-ji-shi-fen-qu-xian-xiang-fa-sheng-xi-tong-reng-ran-ke-yi-gong-zuo-de-xing-zhi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="zai-fen-bu-shi-xi-tong-zhong-fen-qu-rong-ren-xing-shi-zhi-ji-shi-fen-qu-xian-xiang-fa-sheng-xi-tong-reng-ran-ke-yi-gong-zuo-de-xing-zhi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">在分布式系统中， </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分区容忍性是指即使分区现象发生，系统仍然可以工作的性质。</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#ke-yong-xing-Availability"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="ke-yong-xing-Availability">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">可用性 | Availability</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#zai-fen-bu-shi-xi-tong-zhong-ke-yong-xing-shi-zhi-mei-ci-qing-qiu-du-neng-huo-qu-dao-fei-cuo-de-xiang-ying-de-xing-zhi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="zai-fen-bu-shi-xi-tong-zhong-ke-yong-xing-shi-zhi-mei-ci-qing-qiu-du-neng-huo-qu-dao-fei-cuo-de-xiang-ying-de-xing-zhi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">在分布式系统中，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可用性是指每次请求都能获取到非错的响应的性质。</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#yi-zhi-xing-Consistency"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="yi-zhi-xing-Consistency">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">一致性 | Consistency</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#ruo-yi-zhi-xing"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="ruo-yi-zhi-xing">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">弱一致性</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#zui-zhong-yi-zhi-xing"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="zui-zhong-yi-zhi-xing">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">最终一致性</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#qiang-yi-zhi-xing"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="qiang-yi-zhi-xing">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">强一致性</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#CP-huo-zhe-AP-bing-bu-shi-jue-dui-de-xuan-ze-ti"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="CP-huo-zhe-AP-bing-bu-shi-jue-dui-de-xuan-ze-ti">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">「CP 或者 AP」 并不是绝对的选择题</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#zai-shi-ji-zhong-yi-ge-fen-bu-shi-xi-tong-gen-ben-bu-ke-neng-wan-quan-fang-qi-C-huo-zhe-wan-quan-fang-qi-A-wo-men-yao-zuo-de-shi-xuan-ze-nei-ge-duo-yi-dian"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="zai-shi-ji-zhong-yi-ge-fen-bu-shi-xi-tong-gen-ben-bu-ke-neng-wan-quan-fang-qi-C-huo-zhe-wan-quan-fang-qi-A-wo-men-yao-zuo-de-shi-xuan-ze-nei-ge-duo-yi-dian">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">在实际中，一个分布式系统根本不可能完全放弃 C、或者完全放弃 A， 我们要做的是选择哪个多一点。</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- 移动端目录按钮 -->
+<button id="toc-mobile-trigger"
+        class="lg:hidden fixed right-4 bottom-4 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg"
+        onclick="document.getElementById('toc-mobile').classList.toggle('translate-y-full')">
+    <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+    </svg>
+</button>
+
+<!-- 移动端目录 -->
+<div id="toc-mobile"
+     class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white dark:bg-gray-800
+                transform translate-y-full transition duration-200 ease-in-out
+                p-4 rounded-t-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">目录</h3>
+        <button onclick="document.getElementById('toc-mobile').classList.add('translate-y-full')"
+                class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="overflow-y-auto overflow-x-auto"
+         style="max-height: calc(60vh - var(--header-height));">
+        <nav class="space-y-1 inline-block min-w-full">
+            
+            
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#zai-wang-luo-fa-sheng-fen-qu-de-qing-kuang-xia-wo-men-bi-xu-zai-ke-yong-xing-he-yi-zhi-xing-zhi-jian-zuo-chu-xuan-ze"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="zai-wang-luo-fa-sheng-fen-qu-de-qing-kuang-xia-wo-men-bi-xu-zai-ke-yong-xing-he-yi-zhi-xing-zhi-jian-zuo-chu-xuan-ze">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">在网络发生分区的情况下，我们必须在可用性和一致性之间做出选择。</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#fen-bu-shi-xi-tong-bu-ke-neng-tong-shi-bao-zheng-yi-zhi-xing-Consistency-ke-yong-xing-Availability-he-fen-qu-rong-ren-xing-Partitiontolerance"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="fen-bu-shi-xi-tong-bu-ke-neng-tong-shi-bao-zheng-yi-zhi-xing-Consistency-ke-yong-xing-Availability-he-fen-qu-rong-ren-xing-Partitiontolerance">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统不可能同时保证 一致性(Consistency)、 可用性(Availability) 和 分区容忍性(Partition tolerance)。</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#fen-qu-rong-ren-xing-Partitiontolerance"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="fen-qu-rong-ren-xing-Partitiontolerance">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">分区容忍性 | Partition tolerance</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#zai-fen-bu-shi-xi-tong-zhong-fen-qu-rong-ren-xing-shi-zhi-ji-shi-fen-qu-xian-xiang-fa-sheng-xi-tong-reng-ran-ke-yi-gong-zuo-de-xing-zhi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="zai-fen-bu-shi-xi-tong-zhong-fen-qu-rong-ren-xing-shi-zhi-ji-shi-fen-qu-xian-xiang-fa-sheng-xi-tong-reng-ran-ke-yi-gong-zuo-de-xing-zhi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">在分布式系统中， </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分区容忍性是指即使分区现象发生，系统仍然可以工作的性质。</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#ke-yong-xing-Availability"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="ke-yong-xing-Availability">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">可用性 | Availability</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#zai-fen-bu-shi-xi-tong-zhong-ke-yong-xing-shi-zhi-mei-ci-qing-qiu-du-neng-huo-qu-dao-fei-cuo-de-xiang-ying-de-xing-zhi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="zai-fen-bu-shi-xi-tong-zhong-ke-yong-xing-shi-zhi-mei-ci-qing-qiu-du-neng-huo-qu-dao-fei-cuo-de-xiang-ying-de-xing-zhi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">在分布式系统中，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可用性是指每次请求都能获取到非错的响应的性质。</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#yi-zhi-xing-Consistency"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="yi-zhi-xing-Consistency">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">一致性 | Consistency</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#ruo-yi-zhi-xing"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="ruo-yi-zhi-xing">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">弱一致性</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#zui-zhong-yi-zhi-xing"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="zui-zhong-yi-zhi-xing">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">最终一致性</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#qiang-yi-zhi-xing"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="qiang-yi-zhi-xing">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">强一致性</span>
+    
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#CP-huo-zhe-AP-bing-bu-shi-jue-dui-de-xuan-ze-ti"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="CP-huo-zhe-AP-bing-bu-shi-jue-dui-de-xuan-ze-ti">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">「CP 或者 AP」 并不是绝对的选择题</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#zai-shi-ji-zhong-yi-ge-fen-bu-shi-xi-tong-gen-ben-bu-ke-neng-wan-quan-fang-qi-C-huo-zhe-wan-quan-fang-qi-A-wo-men-yao-zuo-de-shi-xuan-ze-nei-ge-duo-yi-dian"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="zai-shi-ji-zhong-yi-ge-fen-bu-shi-xi-tong-gen-ben-bu-ke-neng-wan-quan-fang-qi-C-huo-zhe-wan-quan-fang-qi-A-wo-men-yao-zuo-de-shi-xuan-ze-nei-ge-duo-yi-dian">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">在实际中，一个分布式系统根本不可能完全放弃 C、或者完全放弃 A， 我们要做的是选择哪个多一点。</span>
+    
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+            
+        </nav>
+    </div>
+</div>
+
+<!-- 控制脚本 -->
+<script>
+    const tocMobile = document.getElementById('toc-mobile');
+    const tocMobileTrigger = document.getElementById('toc-mobile-trigger');
+
+    tocMobileTrigger.addEventListener('click', () => {
+        tocMobile.classList.remove('translate-y-full');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!tocMobile.contains(e.target) &&
+            !tocMobileTrigger.contains(e.target) &&
+            !tocMobile.classList.contains('translate-y-full')) {
+            tocMobile.classList.add('translate-y-full');
+        }
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        
+
+<footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div class="flex flex-col md:flex-row md:justify-between gap-8">
+            <!-- Logo 和描述部分 -->
+            <div class="md:w-1/3">
+                
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <a href="/" class="flex items-center">
+                            <img src="/assets/obito.svg"
+                                 alt="H3rwau的个人笔记和随笔"
+                                 class="h-12">
+                        </a>
+                        <a href="/"
+                           class="text-xl font-bold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+                            
+                        </a>
+                    </div>
+                
+
+                <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                    Seeking realistic romanticism in the ridiculous world.
+                </div>
+            </div>
+
+            <!-- 链接部分 -->
+            
+        </div>
+
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
+        <!-- 底部版权和社交链接 -->
+        <div class="flex flex-col items-center sm:flex-row sm:items-center justify-between gap-4">
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+                 使用 ❤️ <a href="https://pageforge.devlive.org" class="hover:text-blue-600" target="_blank">PageForge</a> 构建
+
+                
+            </span>
+
+            
+                <div class="flex items-center gap-4">
+                    
+
+                    
+
+                    
+
+                    
+                        <a href="https://github.com/H3rwau"
+                           class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                           target="_blank">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                      d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                            <span class="sr-only">GitHub</span>
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</footer>
+    
+</div>
+
+<!-- 返回顶部按钮 -->
+
+
+<!-- 遮罩层 -->
+
+    <div class="md:hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-20 hidden"
+         id="sidebar-overlay"
+         onclick="document.getElementById('sidebar-menu').classList.add('-translate-x-full');
+                  this.classList.add('hidden');">
+    </div>
+
+</body>
+
+<!-- 基础脚本文件 -->
+<script src="/assets/pageforge.min.js"></script>
+
+<script>
+    // 移动端侧边栏打开时显示遮罩
+    document.querySelector('[onclick*="sidebar-menu"]').addEventListener('click', function () {
+        document.getElementById('sidebar-overlay').classList.remove('hidden');
+    });
+</script>
+
+<!-- 加载主题配置中的额外 JS 文件 -->
+
+
+<!-- 是否启用 Lucide 图标库 -->
+
+</html>

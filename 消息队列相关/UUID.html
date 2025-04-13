@@ -1,0 +1,2534 @@
+
+
+<!DOCTYPE html>
+<html lang="zh" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID - H3rwau的个人笔记和随笔</title>
+    <!-- 基础 SEO meta 标签 -->
+<meta name="description" content="Seeking realistic romanticism in the ridiculous world.">
+<meta name="keywords" content="">
+<meta name="author" content="PageForge">
+
+    <link rel="icon" href="/assets/obito.svg" type="image/x-icon">
+
+    <!-- 基础样式文件 -->
+    <link rel="stylesheet" href="/assets/pageforge.min.css">
+
+    <script>
+        (function () {
+            document.addEventListener('click', function (e) {
+                var link = e.target.closest('a');
+                if (!link) {
+                    return;
+                }
+
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('http') || href.startsWith('#')) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                // 获取当前路径信息
+                const pathParts = window.location.pathname.split('/').filter(Boolean);
+                let version = null;
+                let lang = null;
+
+                // 解析当前 URL 中的版本和语言信息
+                if (pathParts.length > 0) {
+                    if (/^\d+\.\d+(\.\d+)?$/.test(pathParts[0]) || pathParts[0] === 'current') {
+                        version = pathParts[0];
+                        lang = pathParts[1];
+                    }
+                    else {
+                        lang = pathParts[0];
+                    }
+                }
+
+                // 构建 404 页面路径
+                let notFoundPath = '';
+                if (version) {
+                    notFoundPath += '/' + version;
+                }
+                if (lang) {
+                    notFoundPath += '/' + lang;
+                }
+                notFoundPath += '/404.html';
+
+                fetch(href)
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = href;
+                        }
+                        else {
+                            window.location.href = notFoundPath;
+                        }
+                    })
+                    .catch(() => {
+                        window.location.href = notFoundPath;
+                    });
+            });
+        })();
+    </script>
+
+    <!-- 加载主题配置中的额外 CSS 文件 -->
+    
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Prism.js 语法高亮样式 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-ghcolors.css" rel="stylesheet"/>
+
+    <!-- 统计代码 -->
+    
+        <script defer src="https://tj.devlive.org/script.js" data-website-id="370c42b5-f356-45b4-aade-cd2d920d41ab"></script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"KhuPJkgSiYG5j4Xr",ck:"KhuPJkgSiYG5j4Xr",autoTrack:true,hashMode:true,screenRecord:true})</script>
+
+    
+
+    <!-- Mermaid 图表 -->
+    
+
+    <!-- KaTeX 数学公式 -->
+    
+</head>
+
+<body class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<div class="flex flex-col min-h-screen">
+    
+        
+
+<header>
+    <nav class="fixed top-0 w-full bg-white dark:bg-gray-800 border-b z-40">
+        <!-- Banner -->
+        
+
+        <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo和导航 -->
+                <div class="flex items-center flex-1 min-w-0">
+                    <!-- Logo和标题 -->
+                    
+<div class="flex items-center space-x-4 shrink-0 lg:mr-8">
+    
+        <a href="/" class="flex items-center">
+            <img src="/assets/obito.svg"
+                 alt="H3rwau的个人笔记和随笔"
+                 class="h-10 w-auto object-contain transition-transform hover:scale-105">
+        </a>
+    
+    <a href="/"
+       class="text-xl font-bold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+        
+    </a>
+</div>
+
+                    <!-- 桌面端导航 -->
+                    <div class="hidden lg:flex items-center gap-2 overflow-x-auto py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+    <ul class="flex items-center gap-2 shrink-0">
+        
+            <li class="shrink-0">
+                <a href="/index.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    首页
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/随笔/读研这三年的感悟.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    随笔
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/c++/C++核心技术：C++惯用法.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    CPP
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/操作系统相关/复杂指令集和简单指令集.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    操作系统
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/网络相关/TCPIP模型和OSI模型的区别.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    网络
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/mysql相关/基本SQL语句.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    mysql
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/redis相关/基本.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    redis
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/消息队列相关/UUID.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20 font-medium">
+                    消息队列
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/分布式/CAP.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    分布式
+                </a>
+            </li>
+        
+    </ul>
+</div>
+                </div>
+
+                <!-- 右侧工具栏 -->
+                <div class="flex items-center gap-2 lg:gap-4">
+                    <!-- 搜索框 -->
+                    
+    <!-- 搜索按钮 -->
+    <button type="button"
+            class="ml-2 p-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            id="search-trigger">
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <kbd class="hidden sm:inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium text-gray-500 dark:text-gray-400 dark:border-gray-700">
+                <span class="text-xs">⌘</span>K
+            </kbd>
+        </div>
+    </button>
+
+    <!-- 搜索弹窗 -->
+    <div id="search-dialog"
+         data-version=""
+         class="fixed inset-0 z-50 bg-gray-500/70 items-start justify-center p-4 sm:p-6 md:p-20 hidden"
+         aria-modal="true"
+         role="dialog">
+        <!-- 弹窗内容 -->
+        <div class="mx-auto max-w-2xl w-full relative">
+            <!-- 搜索框和结果区域 -->
+            <div class="overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800">
+                <!-- 搜索框组 -->
+                <div class="relative border-b dark:border-gray-700">
+                    <!-- 搜索图标 -->
+                    <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                        <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+
+                    <!-- 搜索输入框 -->
+                    <input type="text"
+                           id="site-search"
+                           class="block h-12 w-full rounded-none border-0 py-3 pl-10 pr-12 text-gray-900 outline-none dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-transparent focus:outline-none focus:ring-0 sm:text-sm focus:bg-blue-50/5"
+                           placeholder="搜索文档..."
+                           autocomplete="off"
+                           spellcheck="false"/>
+
+                    <!-- 快捷键提示 -->
+                    <div class="absolute inset-y-0 right-3 flex items-center">
+                        <kbd class="hidden sm:inline-flex h-5 items-center rounded border px-1.5 font-mono text-[10px] font-medium text-gray-400 dark:text-gray-500 dark:border-gray-600">
+                            ESC
+                        </kbd>
+                    </div>
+                </div>
+
+                <!-- 搜索结果区域 -->
+                <div id="search-results"
+                     class="max-h-[32rem] scroll-py-3 overflow-y-auto p-3">
+                    <!-- 初始提示 -->
+                    <div class="search-empty-state px-6 py-14 text-center text-sm sm:px-14">
+                        <svg class="mx-auto h-6 w-6 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <p class="mt-4 text-gray-500 dark:text-gray-400">开始输入关键词搜索...</p>
+                        <p class="mt-2 text-xs text-gray-400 dark:text-gray-500">按 ESC 关闭</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                    <!-- 版本选择器 -->
+                    <!-- 版本切换器 -->
+
+
+                    <!-- 桌面端主题切换按钮 -->
+                    
+                        <button type="button"
+                                data-theme-toggle
+                                class="hidden lg:flex items-center justify-center p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <!-- 太阳图标 -->
+                            <svg class="w-5 h-5 sun-icon hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                            <!-- 月亮图标 -->
+                            <svg class="w-5 h-5 moon-icon block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
+                        </button>
+                    
+
+                    <!-- 语言切换器 -->
+                    
+
+                    <!-- 仓库链接 -->
+                    <div class="hidden lg:block">
+                        
+    <div class="hidden lg:flex items-center space-x-4 text-sm" id="github-stats-desktop">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="inline-flex flex-col items-center gap-0.5">
+                <div class="inline-flex items-center gap-1">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="space-x-2" id="repo-stats">
+                    <!-- 初始显示配置的值 -->
+                    <div class="inline-flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 移动端仓库信息 -->
+    <div class="lg:hidden px-3 py-2" id="github-stats-mobile">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="flex flex-wrap gap-3" id="repo-stats-mobile">
+                    <div class="flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // 初始化 GitHub Stats
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.PageForge && window.PageForge.GitHubStats) {
+                // 同时初始化桌面端和移动端
+                window.PageForge.GitHubStats.init('h3rwau', 'h3rwau.github.io', {
+                    desktopStatsId: 'repo-stats',
+                    mobileStatsId: 'repo-stats-mobile'  // 添加移动端容器ID
+                });
+            }
+        });
+    </script>
+
+                    </div>
+
+                    <!-- 移动端控制区 -->
+                    <div class="flex items-center gap-2 lg:hidden">
+                        <!-- 深色模式切换按钮 - 只在启用时显示 -->
+                        
+                            <button type="button"
+                                    data-theme-toggle
+                                    class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                                <svg class="w-6 h-6 sun-icon hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                    </path>
+                                </svg>
+                                <svg class="w-6 h-6 moon-icon block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                    </path>
+                                </svg>
+                            </button>
+                        
+
+                        <!-- 移动端菜单切换 -->
+                        <button type="button"
+                                data-menu-toggle
+                                class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                            <svg class="h-6 w-6 menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6 close-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端菜单 -->
+        <div class="hidden lg:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-2 border-t dark:border-gray-700">
+                
+                    <a href="/index.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        首页
+                    </a>
+                
+                    <a href="/随笔/读研这三年的感悟.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        随笔
+                    </a>
+                
+                    <a href="/c++/C++核心技术：C++惯用法.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        CPP
+                    </a>
+                
+                    <a href="/操作系统相关/复杂指令集和简单指令集.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        操作系统
+                    </a>
+                
+                    <a href="/网络相关/TCPIP模型和OSI模型的区别.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        网络
+                    </a>
+                
+                    <a href="/mysql相关/基本SQL语句.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        mysql
+                    </a>
+                
+                    <a href="/redis相关/基本.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        redis
+                    </a>
+                
+                    <a href="/消息队列相关/UUID.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20">
+                        消息队列
+                    </a>
+                
+                    <a href="/分布式/CAP.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        分布式
+                    </a>
+                
+
+                <!-- 移动端版本切换 -->
+                
+
+                <!-- 移动端语言切换 -->
+                
+
+                <!-- 移动端的仓库链接 -->
+                <div class="px-3 py-2 border-t dark:border-gray-700">
+                    
+    <div class="hidden lg:flex items-center space-x-4 text-sm" id="github-stats-desktop">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="inline-flex flex-col items-center gap-0.5">
+                <div class="inline-flex items-center gap-1">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="space-x-2" id="repo-stats">
+                    <!-- 初始显示配置的值 -->
+                    <div class="inline-flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 移动端仓库信息 -->
+    <div class="lg:hidden px-3 py-2" id="github-stats-mobile">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="flex flex-wrap gap-3" id="repo-stats-mobile">
+                    <div class="flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // 初始化 GitHub Stats
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.PageForge && window.PageForge.GitHubStats) {
+                // 同时初始化桌面端和移动端
+                window.PageForge.GitHubStats.init('h3rwau', 'h3rwau.github.io', {
+                    desktopStatsId: 'repo-stats',
+                    mobileStatsId: 'repo-stats-mobile'  // 添加移动端容器ID
+                });
+            }
+        });
+    </script>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+    
+
+    <!-- 移动端菜单按钮 -->
+    
+        <button class="md:hidden fixed left-4 bottom-4 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg"
+                onclick="document.getElementById('sidebar-menu').classList.remove('-translate-x-full');
+                         document.getElementById('sidebar-overlay').classList.remove('hidden');">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    
+
+    <div class="pt-[--header-height] w-full">
+        <div class="container mx-auto px-4 py-4 md:py-8 flex-grow flex flex-col md:flex-row">
+            <!-- 左侧列表 -->
+            
+                <aside class="fixed md:relative md:w-56 lg:w-64 flex-shrink-0 md:pr-4 lg:pr-8
+                         inset-y-0 left-0 transform -translate-x-full md:translate-x-0
+                         transition duration-200 ease-in-out
+                         md:block z-30 bg-white dark:bg-gray-900 md:bg-transparent
+                         w-3/4 sm:w-64 top-[--header-height] md:top-auto"
+                       id="sidebar-menu">
+                    <div class="h-16 md:hidden flex items-center justify-end px-4 border-b dark:border-gray-800">
+                        <button class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                                onclick="document.getElementById('sidebar-menu').classList.add('-translate-x-full');
+                                     document.getElementById('sidebar-overlay').classList.add('hidden');">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="md:sticky p-4 md:p-0">
+                        <div class="space-y-4">
+                            
+
+
+
+
+
+
+    <div class="text-[0.9375rem] text-gray-600 dark:text-gray-300 overflow-y-auto max-h-[calc(100vh-4rem)] pageforge-scrollbar
+                sm:max-h-screen md:h-auto lg:max-h-[calc(100vh-2rem)]">
+        <div class="mb-6 overflow-x-auto min-w-0">
+            <div class="min-w-fit">
+                
+    <ul class="space-y-1.5">
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/UUID.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20 font-medium
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>UUID</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/如何保证消息不丢失（可靠性）.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>如何保证消息不丢失（可靠性）</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/幂等.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>幂等</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/MQ消息积压.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>MQ消息积压</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/MQ消息重复消费.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>MQ消息重复消费</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/MQ消息顺序性.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>MQ消息顺序性</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/消息队列相关/重试机制为什么要mq.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>重试机制为什么要mq</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+    </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(button) {
+            const submenu = button.nextElementSibling;
+            const arrow = button.querySelector('svg');
+
+            // 切换子菜单的类
+            if (submenu.classList.contains('max-h-0')) {
+                submenu.classList.remove('max-h-0', 'opacity-0');
+                submenu.classList.add('max-h-96', 'opacity-100');
+                arrow.classList.add('rotate-90');
+            } else {
+                submenu.classList.add('max-h-0', 'opacity-0');
+                submenu.classList.remove('max-h-96', 'opacity-100');
+                arrow.classList.remove('rotate-90');
+            }
+        }
+    </script>
+
+                        </div>
+                    </nav>
+                </aside>
+            
+
+            <!-- 中间内容 -->
+            <main class="flex-grow w-full md:w-2">
+                <article class="prose dark:prose-invert lg:prose-lg mx-auto
+                          max-w-none md:max-w-2xl lg:max-w-full">
+                    <!-- 页面容器 -->
+<div class="relative lg:flex lg:gap-8">
+    <!-- 主要内容区域 -->
+    <div class="min-w-0 flex-1">
+        <!-- 页面标题部分 -->
+        <div class="mb-8">
+            
+    <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl lg:text-3xl">
+            UUID
+        </h1>
+
+        <div class="flex items-center gap-4">
+            <!-- 字体大小控制按钮 -->
+            
+
+            <!-- 分享按钮 -->
+            
+
+            <!-- 编辑源码 -->
+            
+
+            <!-- 查看源码 -->
+            
+        </div>
+    </div>
+
+    <!-- 阅读时间 -->
+    <div class="mt-2 flex flex-wrap items-center gap-4">
+        
+    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>20 分钟阅读</span>
+        
+            <span class="mx-1">•</span>
+            <span>
+                
+                    2008 字
+                
+                
+                    +
+                
+                
+                    2622 词
+                
+            </span>
+        
+    </div>
+
+    </div>
+
+    
+
+    <!-- 标签展示区域 -->
+    
+
+        </div>
+
+        <!-- 主要内容部分 -->
+        <div class="prose prose-gray dark:prose-invert max-w-none text-base">
+            
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="UUID-quan-ju-wei-yi-biao-zhi-fu-de-shen-ru-jie-xi-yu-ying-yong" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">UUID：全局唯一标识符的深入解析与应用</span>
+    </div>
+        </div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">UUID 的应用场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">
+UUID 在许多场景中都有广泛应用，包括：</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">数据库主键</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：在数据库中，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">使用 UUID 作为主键可以避免主键冲突</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，特别是在</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统中</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。
+</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：在分布式系统中，使用 UUID 可以确保生成的标识符在全局范围内唯一。
+日志记录：在日志记录中，使用 UUID 可以唯一标识每条日志记录。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="1-he-xin-zu-cheng-jie-gou" class="inline-flex items-center"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">1. 核心组成结构</span>
+    </strong></div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">UUID 是 </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">128 位（16 字节）</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2"> 的数字，通常表示为 32 个十六进制字符（如 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">550e8400-e29b-41d4-a716-446655440000</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">），其结构包含：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">时间戳</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">（60 位）：记录生成时的精确时间（到 100 纳秒级）</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">时钟序列</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">（14 位）：应对时钟回拨的计数器</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">节点标识</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">（48 位）：网卡 MAC 地址或随机数</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">版本标识</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">（4 位）：标明 UUID 类型（如版本 1、4）</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="3-shu-xue-gai-lv-bao-zheng" class="inline-flex items-center"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">3. 数学概率保证</span>
+    </strong></div>
+        </div>
+    
+        <div class="space-y-4">
+            <div class="relative overflow-x-auto shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">UUID 版本</span>
+    
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">理论重复概率（每秒生成 10 亿个）</span>
+    
+                                </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">v1</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">约需 </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">89 年</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2"> 才会出现 50% 碰撞概率</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">v4</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">需要 </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">生成 2.71×10^18 个</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2"> 才有 50% 碰撞概率</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <think>
+
+
+        <span class="text-base text-gray-700 leading-7 my-2">好的，用户问到了UUID的应用场景有哪些。我需要先回顾一下UUID的基本概念和特性，然后思考它在不同领域中的实际应用。首先，UUID是通用唯一识别码，版本主要有1、3、4、5，每个版本生成方式不同，比如版本1基于时间和MAC地址，版本4是随机的，版本3和5基于命名空间和散列。它的主要特点是全局唯一性，通常由128位组成，以32位十六进制数表示，格式如550e8400-e29b-41d4-a716-446655440000。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">接下来，用户可能需要了解在不同场景下为什么选择UUID而不是自增ID或者其他标识符。比如在分布式系统中，自增ID可能需要中央协调，而UUID可以在本地生成，避免单点故障。此外，UUID无需数据库预生成，可以在客户端生成，减少数据库压力。安全性方面，版本4的随机性较高，适合需要不可预测性的场景，比如临时令牌或一次性URL。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">不过，UUID也存在一些缺点，比如长度较长，存储和索引效率可能不如自增整数。在数据库主键中使用UUID可能会影响插入性能和查询性能，尤其是在没有适当优化的情况下。因此，在具体应用时需要权衡利弊。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">然后，我需要列举具体的应用场景。比如分布式系统唯一标识，数据库主键，文件命名，会话标识，安全性相关场景如临时令牌，消息队列的消息ID，日志跟踪中的请求ID，设备标识，URL短链中的匿名链接，跨系统数据同步时的主键等等。每个场景需要说明为什么UUID适合，比如唯一性、无需中央协调、安全性等。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">同时，需要指出不同版本UUID的适用场景。比如版本1可能因为包含MAC地址而存在隐私问题，适合内部系统；版本4随机性强，适合需要匿名的场景；版本3和5适用于需要基于名称生成唯一标识的情况，比如内容寻址。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">最后，可能还需要提到一些注意事项，如存储优化策略（例如使用二进制存储而不是字符串），索引优化，以及UUID的可读性等问题。如果用户是开发人员，可能还关心如何在具体编程语言中生成UUID，以及性能方面的考虑。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">总结来说，回答需要涵盖UUID的特性，各个应用场景的具体例子，版本选择的建议，以及使用时需要注意的问题。这样用户不仅能了解UUID的应用场景，还能根据自身需求做出合适的选择。
+</span>
+    </think>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">UUID（Universally Unique Identifier）是一种全局唯一标识符，通常由 </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">32 位十六进制字符</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2"> 表示（如 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">550e8400-e29b-41d4-a716-446655440000</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">），其核心价值在于</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式环境下无需中央协调即可生成唯一值</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。以下是其典型应用场景及技术细节分析：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <hr class="my-4 h-0.5 border-0 bg-gray-200 dark:bg-gray-700"/>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="yi-UUID-de-he-xin-te-xing" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">一、UUID 的核心特性</span>
+    </div>
+        </div>
+    
+        <div class="space-y-4">
+            <div class="relative overflow-x-auto shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">特性</span>
+    </strong>
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">说明</span>
+    </strong>
+                                </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">全局唯一性</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">重复概率极低（版本4的冲突概率约为 $10^{-36}$）</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">去中心化生成</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">无需依赖数据库或中央服务器分配，客户端可自主生成</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">无意义性</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">大多数版本（如v4）不包含业务信息，避免信息泄露</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">标准化</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">遵循 </span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://tools.ietf.org/html/rfc4122"
+           target="_self"
+           title="">
+            RFC 4122
+        </a>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，跨平台兼容性高</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="chang-jian-ban-ben" class="inline-flex items-center"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">常见版本</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：</span>
+    </div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">v1</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：基于时间戳 + MAC地址（可能泄露设备隐私，适合内部系统）。</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">v4</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：完全随机生成（最常用，安全性高）。</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">v3/v5</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：基于命名空间和散列（如用 URL 生成固定 UUID）。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <hr class="my-4 h-0.5 border-0 bg-gray-200 dark:bg-gray-700"/>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="er-dian-xing-ying-yong-chang-jing" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">二、典型应用场景</span>
+    </div>
+        </div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="1-fen-bu-shi-xi-tong-wei-yi-biao-zhi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">1. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统唯一标识</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：微服务架构中生成订单号、用户ID、日志追踪ID等。</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优势</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">各服务节点独立生成ID，避免主键冲突（如分库分表场景）。  </span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">对比雪花算法（Snowflake）：无需维护机器ID，适合无状态服务。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="2-shu-ju-ku-zhu-jian" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">2. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">数据库主键</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：代替自增整数（Auto Increment）作为主键。</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优势</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">防止爬虫通过ID递增猜测数据规模（如用户表主键暴露业务增长量）。  </span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">数据合并时无需处理ID冲突（如多分支数据库同步到中心库）。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">注意</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">建议存储为 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">BINARY(16)</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 而非字符串，节省空间（字符串占36字节，二进制仅16字节）。  </span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">若需范围查询，可额外添加自增辅助字段。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="3-wen-jian-zi-yuan-ming-ming" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">3. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">文件/资源命名</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：用户上传文件命名（如 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">f3a7b21c-45d6-4e8f.jpg</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">）、云存储对象键。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优势</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">避免文件名冲突（如多个用户上传同名文件）。  </span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">隐藏文件路径信息（对比自增ID，无法通过文件名推测存储结构）。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="4-an-quan-min-gan-chang-jing" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">4. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全敏感场景</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：一次性密码（OTP）、API密钥、访问令牌（Token）。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优势</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">v4 UUID 随机性高</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，难以预测（如生成 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">tmp_550e8400e29b41d4a716446655440000</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 作为临时令牌）。  </span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">结合过期时间（TTL）和黑名单机制，提升安全性。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="5-qian-duan-ying-yong-biao-zhi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">5. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">前端应用标识</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：客户端本地存储的匿名用户ID、设备指纹、浏览器会话ID。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优势</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">无需用户登录即可生成唯一标识（符合 GDPR 匿名性要求）。  </span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">避免 Cookie 被清除后无法追踪用户行为（结合 LocalStorage 持久化 UUID）。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="6-xiao-xi-dui-lie-qu-zhong" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">6. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">消息队列去重</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：Kafka/RabbitMQ 消息唯一ID，防止重复消费。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">实现</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">python</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-python">message_id <span class="token operator">=</span> uuid<span class="token punctuation">.</span>uuid4<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">hex</span>
+producer<span class="token punctuation">.</span>send<span class="token punctuation">(</span>topic<span class="token punctuation">,</span> key<span class="token operator">=</span>message_id<span class="token punctuation">,</span> value<span class="token operator">=</span>data<span class="token punctuation">)</span>
+<span class="token comment"># 消费者通过 message_id 幂等处理</span></code></pre>
+                </div>
+            </div>
+        </div></li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="7-kua-xi-tong-shu-ju-tong-bu" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">7. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">跨系统数据同步</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">场景</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：多个独立系统间同步数据（如ERP与CRM系统用户数据互通）。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优势</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：  </span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">通过 UUID 关联同一实体（如用户），避免不同系统的自增ID冲突。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <hr class="my-4 h-0.5 border-0 bg-gray-200 dark:bg-gray-700"/>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="san-UUID-shi-yong-zhu-yi-shi-xiang" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">三、UUID 使用注意事项</span>
+    </div>
+        </div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="1-cun-chu-yu-xing-neng-you-hua" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">1. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">存储与性能优化</span>
+    </strong></div>
+        </div>
+    
+        <div class="space-y-4">
+            <div class="relative overflow-x-auto shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优化策略</span>
+    </strong>
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">说明</span>
+    </strong>
+                                </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">二进制存储</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">将 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">UUID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 转为 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">BINARY(16)</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 存储，空间节省55%（36字节 → 16字节）。</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">索引优化</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">若作为主键，优先使用自增主键 + UUID 组合（避免 B+ 树页分裂导致的插入性能下降）。</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">生成器选择</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">高并发场景使用更快的生成算法（如 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uuidv7</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 时间有序优化查询性能）。</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="2-an-quan-wen-ti" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">2. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全问题</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">避免使用 v1 UUID</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：因包含 MAC 地址和时间戳，可能泄露设备信息。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">敏感数据脱敏</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：在日志中掩码部分UUID（如 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">550e8400-****-446655440000</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">）。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-lg [&_span]:sm:!text-xl">
+            <div id="3-ke-du-xing-quan-heng" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">3. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可读性权衡</span>
+    </strong></div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">缺点</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：UUID 无业务含义，调试时难以记忆（如对比订单号 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">ORD-20230901-0001</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">）。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">解决方案</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：组合使用（如 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">USER-{uuid}</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 或前缀标识类型 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">CUST_550e8400e29b</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">）。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <hr class="my-4 h-0.5 border-0 bg-gray-200 dark:bg-gray-700"/>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="si-ti-dai-fang-an-dui-bi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">四、替代方案对比</span>
+    </div>
+        </div>
+    
+        <div class="space-y-4">
+            <div class="relative overflow-x-auto shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">方案</span>
+    </strong>
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">适用场景</span>
+    </strong>
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">劣势</span>
+    </strong>
+                                </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">自增ID</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">单机数据库、强顺序需求</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">分库分表时需中央协调，暴露业务规模</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">雪花算法</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统、时间有序需求</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">依赖机器ID配置，时钟回拨问题</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">ULID</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">需要时间有序且可读的UUID</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">128位兼容性不如 UUID</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">NanoID</span>
+    </strong>
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">短链、需要更紧凑的字符串</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">长度可变（默认21字符），安全性低于v4 UUID</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <hr class="my-4 h-0.5 border-0 bg-gray-200 dark:bg-gray-700"/>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="zong-jie" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">总结</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">UUID 是</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统、高安全场景、匿名标识等领域的基础工具</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，选择时需注意：  </span>
+    
+        <ol class="my-4 pl-8 list-decimal">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">版本选择</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：优先使用 v4（随机）或 v7（时间有序）。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">存储优化</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：二进制存储 + 索引优化提升性能。  </span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全合规</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：避免隐私泄露，必要时进行脱敏。</span>
+    </li>
+        </ol>
+    
+        </div>
+
+        <div class="clear-both"></div>
+
+        <!-- Git 信息部分 -->
+        
+
+        <!-- 贡献者信息 -->
+        
+
+        <!-- 评论部分 -->
+        
+    </div>
+</div>
+                </article>
+            </main>
+
+            <!-- 右侧目录 -->
+            
+                <!-- 桌面端目录 -->
+<div class="hidden lg:block flex-none md:w-56 lg:w-64 pl-8 mr-8">
+    <div class="sticky" style="top: calc(var(--header-height) + 1rem)">
+        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">目录</div>
+        <div class="overflow-y-auto overflow-x-auto pr-4 pageforge-scrollbar"
+             style="max-height: calc(100vh - var(--header-height) - 8rem);">
+            <nav class="space-y-1 inline-block min-w-full"
+                 id="table-of-contents">
+                
+                
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#UUID-quan-ju-wei-yi-biao-zhi-fu-de-shen-ru-jie-xi-yu-ying-yong"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="UUID-quan-ju-wei-yi-biao-zhi-fu-de-shen-ru-jie-xi-yu-ying-yong">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">UUID：全局唯一标识符的深入解析与应用</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#1-he-xin-zu-cheng-jie-gou"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="1-he-xin-zu-cheng-jie-gou">
+                                <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">1. 核心组成结构</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#3-shu-xue-gai-lv-bao-zheng"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="3-shu-xue-gai-lv-bao-zheng">
+                                <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">3. 数学概率保证</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#yi-UUID-de-he-xin-te-xing"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="yi-UUID-de-he-xin-te-xing">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">一、UUID 的核心特性</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#chang-jian-ban-ben"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="chang-jian-ban-ben">
+                                <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">常见版本</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#er-dian-xing-ying-yong-chang-jing"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="er-dian-xing-ying-yong-chang-jing">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">二、典型应用场景</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#1-fen-bu-shi-xi-tong-wei-yi-biao-zhi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="1-fen-bu-shi-xi-tong-wei-yi-biao-zhi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">1. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统唯一标识</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#2-shu-ju-ku-zhu-jian"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="2-shu-ju-ku-zhu-jian">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">2. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">数据库主键</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#3-wen-jian-zi-yuan-ming-ming"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="3-wen-jian-zi-yuan-ming-ming">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">3. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">文件/资源命名</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#4-an-quan-min-gan-chang-jing"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="4-an-quan-min-gan-chang-jing">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">4. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全敏感场景</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#5-qian-duan-ying-yong-biao-zhi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="5-qian-duan-ying-yong-biao-zhi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">5. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">前端应用标识</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#6-xiao-xi-dui-lie-qu-zhong"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="6-xiao-xi-dui-lie-qu-zhong">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">6. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">消息队列去重</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#7-kua-xi-tong-shu-ju-tong-bu"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="7-kua-xi-tong-shu-ju-tong-bu">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">7. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">跨系统数据同步</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#san-UUID-shi-yong-zhu-yi-shi-xiang"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="san-UUID-shi-yong-zhu-yi-shi-xiang">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">三、UUID 使用注意事项</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#1-cun-chu-yu-xing-neng-you-hua"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="1-cun-chu-yu-xing-neng-you-hua">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">1. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">存储与性能优化</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#2-an-quan-wen-ti"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="2-an-quan-wen-ti">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">2. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全问题</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-12 inline-block min-w-full">
+                            <a href="#3-ke-du-xing-quan-heng"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="3-ke-du-xing-quan-heng">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">3. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可读性权衡</span>
+    </strong>
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#si-ti-dai-fang-an-dui-bi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="si-ti-dai-fang-an-dui-bi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">四、替代方案对比</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#zong-jie"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="zong-jie">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">总结</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- 移动端目录按钮 -->
+<button id="toc-mobile-trigger"
+        class="lg:hidden fixed right-4 bottom-4 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg"
+        onclick="document.getElementById('toc-mobile').classList.toggle('translate-y-full')">
+    <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+    </svg>
+</button>
+
+<!-- 移动端目录 -->
+<div id="toc-mobile"
+     class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white dark:bg-gray-800
+                transform translate-y-full transition duration-200 ease-in-out
+                p-4 rounded-t-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">目录</h3>
+        <button onclick="document.getElementById('toc-mobile').classList.add('translate-y-full')"
+                class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="overflow-y-auto overflow-x-auto"
+         style="max-height: calc(60vh - var(--header-height));">
+        <nav class="space-y-1 inline-block min-w-full">
+            
+            
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#UUID-quan-ju-wei-yi-biao-zhi-fu-de-shen-ru-jie-xi-yu-ying-yong"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="UUID-quan-ju-wei-yi-biao-zhi-fu-de-shen-ru-jie-xi-yu-ying-yong">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">UUID：全局唯一标识符的深入解析与应用</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#1-he-xin-zu-cheng-jie-gou"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="1-he-xin-zu-cheng-jie-gou">
+                            <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">1. 核心组成结构</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#3-shu-xue-gai-lv-bao-zheng"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="3-shu-xue-gai-lv-bao-zheng">
+                            <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">3. 数学概率保证</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#yi-UUID-de-he-xin-te-xing"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="yi-UUID-de-he-xin-te-xing">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">一、UUID 的核心特性</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#chang-jian-ban-ben"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="chang-jian-ban-ben">
+                            <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">常见版本</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：</span>
+    
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#er-dian-xing-ying-yong-chang-jing"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="er-dian-xing-ying-yong-chang-jing">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">二、典型应用场景</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#1-fen-bu-shi-xi-tong-wei-yi-biao-zhi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="1-fen-bu-shi-xi-tong-wei-yi-biao-zhi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">1. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">分布式系统唯一标识</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#2-shu-ju-ku-zhu-jian"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="2-shu-ju-ku-zhu-jian">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">2. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">数据库主键</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#3-wen-jian-zi-yuan-ming-ming"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="3-wen-jian-zi-yuan-ming-ming">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">3. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">文件/资源命名</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#4-an-quan-min-gan-chang-jing"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="4-an-quan-min-gan-chang-jing">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">4. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全敏感场景</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#5-qian-duan-ying-yong-biao-zhi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="5-qian-duan-ying-yong-biao-zhi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">5. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">前端应用标识</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#6-xiao-xi-dui-lie-qu-zhong"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="6-xiao-xi-dui-lie-qu-zhong">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">6. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">消息队列去重</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#7-kua-xi-tong-shu-ju-tong-bu"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="7-kua-xi-tong-shu-ju-tong-bu">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">7. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">跨系统数据同步</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#san-UUID-shi-yong-zhu-yi-shi-xiang"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="san-UUID-shi-yong-zhu-yi-shi-xiang">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">三、UUID 使用注意事项</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#1-cun-chu-yu-xing-neng-you-hua"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="1-cun-chu-yu-xing-neng-you-hua">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">1. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">存储与性能优化</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#2-an-quan-wen-ti"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="2-an-quan-wen-ti">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">2. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">安全问题</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-12 inline-block min-w-full">
+                        <a href="#3-ke-du-xing-quan-heng"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="3-ke-du-xing-quan-heng">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">3. </span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">可读性权衡</span>
+    </strong>
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#si-ti-dai-fang-an-dui-bi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="si-ti-dai-fang-an-dui-bi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">四、替代方案对比</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#zong-jie"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="zong-jie">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">总结</span>
+    
+                        </a>
+                    </div>
+                    
+                
+            
+        </nav>
+    </div>
+</div>
+
+<!-- 控制脚本 -->
+<script>
+    const tocMobile = document.getElementById('toc-mobile');
+    const tocMobileTrigger = document.getElementById('toc-mobile-trigger');
+
+    tocMobileTrigger.addEventListener('click', () => {
+        tocMobile.classList.remove('translate-y-full');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!tocMobile.contains(e.target) &&
+            !tocMobileTrigger.contains(e.target) &&
+            !tocMobile.classList.contains('translate-y-full')) {
+            tocMobile.classList.add('translate-y-full');
+        }
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        
+
+<footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div class="flex flex-col md:flex-row md:justify-between gap-8">
+            <!-- Logo 和描述部分 -->
+            <div class="md:w-1/3">
+                
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <a href="/" class="flex items-center">
+                            <img src="/assets/obito.svg"
+                                 alt="H3rwau的个人笔记和随笔"
+                                 class="h-12">
+                        </a>
+                        <a href="/"
+                           class="text-xl font-bold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+                            
+                        </a>
+                    </div>
+                
+
+                <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                    Seeking realistic romanticism in the ridiculous world.
+                </div>
+            </div>
+
+            <!-- 链接部分 -->
+            
+        </div>
+
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
+        <!-- 底部版权和社交链接 -->
+        <div class="flex flex-col items-center sm:flex-row sm:items-center justify-between gap-4">
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+                 使用 ❤️ <a href="https://pageforge.devlive.org" class="hover:text-blue-600" target="_blank">PageForge</a> 构建
+
+                
+            </span>
+
+            
+                <div class="flex items-center gap-4">
+                    
+
+                    
+
+                    
+
+                    
+                        <a href="https://github.com/H3rwau"
+                           class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                           target="_blank">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                      d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                            <span class="sr-only">GitHub</span>
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</footer>
+    
+</div>
+
+<!-- 返回顶部按钮 -->
+
+
+<!-- 遮罩层 -->
+
+    <div class="md:hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-20 hidden"
+         id="sidebar-overlay"
+         onclick="document.getElementById('sidebar-menu').classList.add('-translate-x-full');
+                  this.classList.add('hidden');">
+    </div>
+
+</body>
+
+<!-- 基础脚本文件 -->
+<script src="/assets/pageforge.min.js"></script>
+
+<script>
+    // 移动端侧边栏打开时显示遮罩
+    document.querySelector('[onclick*="sidebar-menu"]').addEventListener('click', function () {
+        document.getElementById('sidebar-overlay').classList.remove('hidden');
+    });
+</script>
+
+<!-- 加载主题配置中的额外 JS 文件 -->
+
+
+<!-- 是否启用 Lucide 图标库 -->
+
+</html>

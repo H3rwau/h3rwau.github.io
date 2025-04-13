@@ -1,0 +1,3077 @@
+
+
+<!DOCTYPE html>
+<html lang="zh" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分布式ID生成器 - H3rwau的个人笔记和随笔</title>
+    <!-- 基础 SEO meta 标签 -->
+<meta name="description" content="Seeking realistic romanticism in the ridiculous world.">
+<meta name="keywords" content="">
+<meta name="author" content="PageForge">
+
+    <link rel="icon" href="/assets/obito.svg" type="image/x-icon">
+
+    <!-- 基础样式文件 -->
+    <link rel="stylesheet" href="/assets/pageforge.min.css">
+
+    <script>
+        (function () {
+            document.addEventListener('click', function (e) {
+                var link = e.target.closest('a');
+                if (!link) {
+                    return;
+                }
+
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('http') || href.startsWith('#')) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                // 获取当前路径信息
+                const pathParts = window.location.pathname.split('/').filter(Boolean);
+                let version = null;
+                let lang = null;
+
+                // 解析当前 URL 中的版本和语言信息
+                if (pathParts.length > 0) {
+                    if (/^\d+\.\d+(\.\d+)?$/.test(pathParts[0]) || pathParts[0] === 'current') {
+                        version = pathParts[0];
+                        lang = pathParts[1];
+                    }
+                    else {
+                        lang = pathParts[0];
+                    }
+                }
+
+                // 构建 404 页面路径
+                let notFoundPath = '';
+                if (version) {
+                    notFoundPath += '/' + version;
+                }
+                if (lang) {
+                    notFoundPath += '/' + lang;
+                }
+                notFoundPath += '/404.html';
+
+                fetch(href)
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = href;
+                        }
+                        else {
+                            window.location.href = notFoundPath;
+                        }
+                    })
+                    .catch(() => {
+                        window.location.href = notFoundPath;
+                    });
+            });
+        })();
+    </script>
+
+    <!-- 加载主题配置中的额外 CSS 文件 -->
+    
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Prism.js 语法高亮样式 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-ghcolors.css" rel="stylesheet"/>
+
+    <!-- 统计代码 -->
+    
+        <script defer src="https://tj.devlive.org/script.js" data-website-id="370c42b5-f356-45b4-aade-cd2d920d41ab"></script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"KhuPJkgSiYG5j4Xr",ck:"KhuPJkgSiYG5j4Xr",autoTrack:true,hashMode:true,screenRecord:true})</script>
+
+    
+
+    <!-- Mermaid 图表 -->
+    
+
+    <!-- KaTeX 数学公式 -->
+    
+</head>
+
+<body class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<div class="flex flex-col min-h-screen">
+    
+        
+
+<header>
+    <nav class="fixed top-0 w-full bg-white dark:bg-gray-800 border-b z-40">
+        <!-- Banner -->
+        
+
+        <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo和导航 -->
+                <div class="flex items-center flex-1 min-w-0">
+                    <!-- Logo和标题 -->
+                    
+<div class="flex items-center space-x-4 shrink-0 lg:mr-8">
+    
+        <a href="/" class="flex items-center">
+            <img src="/assets/obito.svg"
+                 alt="H3rwau的个人笔记和随笔"
+                 class="h-10 w-auto object-contain transition-transform hover:scale-105">
+        </a>
+    
+    <a href="/"
+       class="text-xl font-bold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+        
+    </a>
+</div>
+
+                    <!-- 桌面端导航 -->
+                    <div class="hidden lg:flex items-center gap-2 overflow-x-auto py-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+    <ul class="flex items-center gap-2 shrink-0">
+        
+            <li class="shrink-0">
+                <a href="/index.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    首页
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/随笔/读研这三年的感悟.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    随笔
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/c++/C++核心技术：C++惯用法.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    CPP
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/操作系统相关/复杂指令集和简单指令集.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    操作系统
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/网络相关/TCPIP模型和OSI模型的区别.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    网络
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/mysql相关/基本SQL语句.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    mysql
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/redis相关/基本.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    redis
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/消息队列相关/UUID.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                    消息队列
+                </a>
+            </li>
+        
+            <li class="shrink-0">
+                <a href="/分布式/CAP.html"
+                   class="inline-flex items-center rounded-lg justify-center px-3.5 py-3
+                          text-sm font-medium leading-none whitespace-nowrap
+                          dark:text-white
+                          text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20 font-medium">
+                    分布式
+                </a>
+            </li>
+        
+    </ul>
+</div>
+                </div>
+
+                <!-- 右侧工具栏 -->
+                <div class="flex items-center gap-2 lg:gap-4">
+                    <!-- 搜索框 -->
+                    
+    <!-- 搜索按钮 -->
+    <button type="button"
+            class="ml-2 p-2 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            id="search-trigger">
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <kbd class="hidden sm:inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium text-gray-500 dark:text-gray-400 dark:border-gray-700">
+                <span class="text-xs">⌘</span>K
+            </kbd>
+        </div>
+    </button>
+
+    <!-- 搜索弹窗 -->
+    <div id="search-dialog"
+         data-version=""
+         class="fixed inset-0 z-50 bg-gray-500/70 items-start justify-center p-4 sm:p-6 md:p-20 hidden"
+         aria-modal="true"
+         role="dialog">
+        <!-- 弹窗内容 -->
+        <div class="mx-auto max-w-2xl w-full relative">
+            <!-- 搜索框和结果区域 -->
+            <div class="overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800">
+                <!-- 搜索框组 -->
+                <div class="relative border-b dark:border-gray-700">
+                    <!-- 搜索图标 -->
+                    <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                        <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+
+                    <!-- 搜索输入框 -->
+                    <input type="text"
+                           id="site-search"
+                           class="block h-12 w-full rounded-none border-0 py-3 pl-10 pr-12 text-gray-900 outline-none dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-transparent focus:outline-none focus:ring-0 sm:text-sm focus:bg-blue-50/5"
+                           placeholder="搜索文档..."
+                           autocomplete="off"
+                           spellcheck="false"/>
+
+                    <!-- 快捷键提示 -->
+                    <div class="absolute inset-y-0 right-3 flex items-center">
+                        <kbd class="hidden sm:inline-flex h-5 items-center rounded border px-1.5 font-mono text-[10px] font-medium text-gray-400 dark:text-gray-500 dark:border-gray-600">
+                            ESC
+                        </kbd>
+                    </div>
+                </div>
+
+                <!-- 搜索结果区域 -->
+                <div id="search-results"
+                     class="max-h-[32rem] scroll-py-3 overflow-y-auto p-3">
+                    <!-- 初始提示 -->
+                    <div class="search-empty-state px-6 py-14 text-center text-sm sm:px-14">
+                        <svg class="mx-auto h-6 w-6 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <p class="mt-4 text-gray-500 dark:text-gray-400">开始输入关键词搜索...</p>
+                        <p class="mt-2 text-xs text-gray-400 dark:text-gray-500">按 ESC 关闭</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                    <!-- 版本选择器 -->
+                    <!-- 版本切换器 -->
+
+
+                    <!-- 桌面端主题切换按钮 -->
+                    
+                        <button type="button"
+                                data-theme-toggle
+                                class="hidden lg:flex items-center justify-center p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <!-- 太阳图标 -->
+                            <svg class="w-5 h-5 sun-icon hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                            <!-- 月亮图标 -->
+                            <svg class="w-5 h-5 moon-icon block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                </path>
+                            </svg>
+                        </button>
+                    
+
+                    <!-- 语言切换器 -->
+                    
+
+                    <!-- 仓库链接 -->
+                    <div class="hidden lg:block">
+                        
+    <div class="hidden lg:flex items-center space-x-4 text-sm" id="github-stats-desktop">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="inline-flex flex-col items-center gap-0.5">
+                <div class="inline-flex items-center gap-1">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="space-x-2" id="repo-stats">
+                    <!-- 初始显示配置的值 -->
+                    <div class="inline-flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 移动端仓库信息 -->
+    <div class="lg:hidden px-3 py-2" id="github-stats-mobile">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="flex flex-wrap gap-3" id="repo-stats-mobile">
+                    <div class="flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // 初始化 GitHub Stats
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.PageForge && window.PageForge.GitHubStats) {
+                // 同时初始化桌面端和移动端
+                window.PageForge.GitHubStats.init('h3rwau', 'h3rwau.github.io', {
+                    desktopStatsId: 'repo-stats',
+                    mobileStatsId: 'repo-stats-mobile'  // 添加移动端容器ID
+                });
+            }
+        });
+    </script>
+
+                    </div>
+
+                    <!-- 移动端控制区 -->
+                    <div class="flex items-center gap-2 lg:hidden">
+                        <!-- 深色模式切换按钮 - 只在启用时显示 -->
+                        
+                            <button type="button"
+                                    data-theme-toggle
+                                    class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                                <svg class="w-6 h-6 sun-icon hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                                    </path>
+                                </svg>
+                                <svg class="w-6 h-6 moon-icon block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                                    </path>
+                                </svg>
+                            </button>
+                        
+
+                        <!-- 移动端菜单切换 -->
+                        <button type="button"
+                                data-menu-toggle
+                                class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                            <svg class="h-6 w-6 menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6 close-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端菜单 -->
+        <div class="hidden lg:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-2 border-t dark:border-gray-700">
+                
+                    <a href="/index.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        首页
+                    </a>
+                
+                    <a href="/随笔/读研这三年的感悟.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        随笔
+                    </a>
+                
+                    <a href="/c++/C++核心技术：C++惯用法.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        CPP
+                    </a>
+                
+                    <a href="/操作系统相关/复杂指令集和简单指令集.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        操作系统
+                    </a>
+                
+                    <a href="/网络相关/TCPIP模型和OSI模型的区别.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        网络
+                    </a>
+                
+                    <a href="/mysql相关/基本SQL语句.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        mysql
+                    </a>
+                
+                    <a href="/redis相关/基本.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        redis
+                    </a>
+                
+                    <a href="/消息队列相关/UUID.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                        消息队列
+                    </a>
+                
+                    <a href="/分布式/CAP.html"
+                       class="block px-3 py-2 rounded-md text-base font-medium
+                      text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20">
+                        分布式
+                    </a>
+                
+
+                <!-- 移动端版本切换 -->
+                
+
+                <!-- 移动端语言切换 -->
+                
+
+                <!-- 移动端的仓库链接 -->
+                <div class="px-3 py-2 border-t dark:border-gray-700">
+                    
+    <div class="hidden lg:flex items-center space-x-4 text-sm" id="github-stats-desktop">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="inline-flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="inline-flex flex-col items-center gap-0.5">
+                <div class="inline-flex items-center gap-1">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="space-x-2" id="repo-stats">
+                    <!-- 初始显示配置的值 -->
+                    <div class="inline-flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="inline-flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 移动端仓库信息 -->
+    <div class="lg:hidden px-3 py-2" id="github-stats-mobile">
+        <a href="https://github.com/H3rwau/h3rwau.github.io"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-3 text-gray-600 hover:text-gray-500 transition-colors">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center">
+                    h3rwau/h3rwau.github.io
+                </div>
+                <div class="flex flex-wrap gap-3" id="repo-stats-mobile">
+                    <div class="flex items-center gap-1 tag-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"></path>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                        </svg>
+                        
+                    </div>
+                    <div class="flex items-center gap-1 forks-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                        </svg>
+                        
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <script>
+        // 初始化 GitHub Stats
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.PageForge && window.PageForge.GitHubStats) {
+                // 同时初始化桌面端和移动端
+                window.PageForge.GitHubStats.init('h3rwau', 'h3rwau.github.io', {
+                    desktopStatsId: 'repo-stats',
+                    mobileStatsId: 'repo-stats-mobile'  // 添加移动端容器ID
+                });
+            }
+        });
+    </script>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+    
+
+    <!-- 移动端菜单按钮 -->
+    
+        <button class="md:hidden fixed left-4 bottom-4 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg"
+                onclick="document.getElementById('sidebar-menu').classList.remove('-translate-x-full');
+                         document.getElementById('sidebar-overlay').classList.remove('hidden');">
+            <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    
+
+    <div class="pt-[--header-height] w-full">
+        <div class="container mx-auto px-4 py-4 md:py-8 flex-grow flex flex-col md:flex-row">
+            <!-- 左侧列表 -->
+            
+                <aside class="fixed md:relative md:w-56 lg:w-64 flex-shrink-0 md:pr-4 lg:pr-8
+                         inset-y-0 left-0 transform -translate-x-full md:translate-x-0
+                         transition duration-200 ease-in-out
+                         md:block z-30 bg-white dark:bg-gray-900 md:bg-transparent
+                         w-3/4 sm:w-64 top-[--header-height] md:top-auto"
+                       id="sidebar-menu">
+                    <div class="h-16 md:hidden flex items-center justify-end px-4 border-b dark:border-gray-800">
+                        <button class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                                onclick="document.getElementById('sidebar-menu').classList.add('-translate-x-full');
+                                     document.getElementById('sidebar-overlay').classList.add('hidden');">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="md:sticky p-4 md:p-0">
+                        <div class="space-y-4">
+                            
+
+
+
+
+
+
+    <div class="text-[0.9375rem] text-gray-600 dark:text-gray-300 overflow-y-auto max-h-[calc(100vh-4rem)] pageforge-scrollbar
+                sm:max-h-screen md:h-auto lg:max-h-[calc(100vh-2rem)]">
+        <div class="mb-6 overflow-x-auto min-w-0">
+            <div class="min-w-fit">
+                
+    <ul class="space-y-1.5">
+        
+            <li class="relative">
+                
+                    <a href="/分布式/CAP.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>CAP</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式事务.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式事务</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式锁.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式锁</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/一致性哈希.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>一致性哈希</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/两阶段提交和三阶段提交.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>两阶段提交和三阶段提交</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/LCN解决方案.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>LCN解决方案</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/TCC解决方案.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>TCC解决方案</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式ID生成器.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                text-blue-600 dark:text-blue-400 bg-blue-50/80 dark:bg-blue-900/20 font-medium
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式ID生成器</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分布式幂等性.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分布式幂等性</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/BASE理论.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>BASE理论</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/消息队列加本地事件表.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>消息队列加本地事件表</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/可靠消息最终一致性方案.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>可靠消息最终一致性方案</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/负载均衡.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>负载均衡</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/限流算法.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>限流算法</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/数据库如何处理大数据.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>数据库如何处理大数据</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/熔断和降级.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>熔断和降级</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/注册中心.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>注册中心</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/如何提高系统的并发能力.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>如何提高系统的并发能力</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/如何进行服务划分.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>如何进行服务划分</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/服务治理.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>服务治理</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/seata.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>seata</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/付钱和扣库存的一致性.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>付钱和扣库存的一致性</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+            <li class="relative">
+                
+                    <a href="/分布式/分库分表面经.html"
+                       class="group block">
+                        
+                        <div class="relative flex items-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2
+                                hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40
+                               rounded-md transition-all duration-200 ease-in-out">
+
+                            
+
+                            <span class="flex flex-grow items-center space-x-4 text-sm sm:text-base whitespace-nowrap">
+                                <span>分库分表面经</span>
+                                
+
+
+                            </span>
+
+                            
+                        </div>
+                        
+                    </a>
+                
+            </li>
+        
+    </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(button) {
+            const submenu = button.nextElementSibling;
+            const arrow = button.querySelector('svg');
+
+            // 切换子菜单的类
+            if (submenu.classList.contains('max-h-0')) {
+                submenu.classList.remove('max-h-0', 'opacity-0');
+                submenu.classList.add('max-h-96', 'opacity-100');
+                arrow.classList.add('rotate-90');
+            } else {
+                submenu.classList.add('max-h-0', 'opacity-0');
+                submenu.classList.remove('max-h-96', 'opacity-100');
+                arrow.classList.remove('rotate-90');
+            }
+        }
+    </script>
+
+                        </div>
+                    </nav>
+                </aside>
+            
+
+            <!-- 中间内容 -->
+            <main class="flex-grow w-full md:w-2">
+                <article class="prose dark:prose-invert lg:prose-lg mx-auto
+                          max-w-none md:max-w-2xl lg:max-w-full">
+                    <!-- 页面容器 -->
+<div class="relative lg:flex lg:gap-8">
+    <!-- 主要内容区域 -->
+    <div class="min-w-0 flex-1">
+        <!-- 页面标题部分 -->
+        <div class="mb-8">
+            
+    <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl lg:text-3xl">
+            分布式ID生成器
+        </h1>
+
+        <div class="flex items-center gap-4">
+            <!-- 字体大小控制按钮 -->
+            
+
+            <!-- 分享按钮 -->
+            
+
+            <!-- 编辑源码 -->
+            
+
+            <!-- 查看源码 -->
+            
+        </div>
+    </div>
+
+    <!-- 阅读时间 -->
+    <div class="mt-2 flex flex-wrap items-center gap-4">
+        
+    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>半小时以上阅读</span>
+        
+            <span class="mx-1">•</span>
+            <span>
+                
+                    2627 字
+                
+                
+                    +
+                
+                
+                    5408 词
+                
+            </span>
+        
+    </div>
+
+    </div>
+
+    
+
+    <!-- 标签展示区域 -->
+    
+
+        </div>
+
+        <!-- 主要内容部分 -->
+        <div class="prose prose-gray dark:prose-invert max-w-none text-base">
+            
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="shen-me-shi-fen-bu-shi-ID" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">什么是分布式ID？</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">在我们业务数据量不大的时候，单库单表完全可以支撑现有业务，数据再大一点搞个MySQL主从同步读写分离也能对付。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">但随着数据日渐增长，主从同步也扛不住了，就需要对数据库进行分库分表，但分库分表后</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">需要有一个唯一ID来标识一条数据</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，数据库的自增ID显然不能满足需求；特别一点的如</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">订单、优惠券</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">也都需要有</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">唯一ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">做标识。此时一个能够生成</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">全局唯一ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的系统是非常必要的。那么这个</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">全局唯一ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">就叫</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">分布式ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-xl [&_span]:sm:!text-2xl">
+            <div id="fen-bu-shi-ID-man-zu-nei-xie-tiao-jian" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">分布式ID满足哪些条件</span>
+    </div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">全局唯一</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：必须保证ID是全局性唯一的，基本要求</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">高性能</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：高可用低延时，ID生成响应要快，否则反倒会成为业务瓶颈</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">高可用</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：100%的可用性是骗人的，但是也要无限**接近于100%**的可用性</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">好接入：要秉着拿来即用的设计原则，在系统设计和实现上要尽可能的简单</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">趋势递增</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">最好趋势递增</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，如果ID不是趋势递增，那么B+树为了维护ID的有序性，会频繁地在索引的中间位置插入节点，从而影响后面节点的位置，甚至频繁会导致页分裂，这对于性能的影响是极大的。这个要求就得看具体业务场景了，一般不严格要求</span>
+    </li><li class="mb-2 text-gray-700"><strong>
+        <span class="text-base text-gray-700 leading-7 my-2">存储空间小</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，因为对于innodb引擎来说，普通索引会存储主键值，主键越大，每个page可以存储的数据就越少，访问磁盘IO次数就会增加。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="fen-bu-shi-ID-de-sheng-cheng-fang-fa" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">分布式ID的生成方法</span>
+    </div>
+        </div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">UUID</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">数据库自增ID</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">数据库多主模式</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">Redis</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">雪花算法（SnowFlake）</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">滴滴出品（TinyID）</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">百度 （Uidgenerator）</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">美团（Leaf）</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="1UUID" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">1.UUID</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">在Java的世界里，想要得到一个具有唯一性的ID，首先被想到可能就是</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">UUID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，毕竟它有着全球唯一的特性。那么</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">UUID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">可以做</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">分布式ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">吗？</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">答案是可以的，但是并不推荐！</span>
+    </strong><div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token parameter">String<span class="token punctuation">[</span><span class="token punctuation">]</span> args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+       String uuid <span class="token operator">=</span> <span class="token constant">UUID</span><span class="token punctuation">.</span><span class="token function">randomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replaceAll</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>uuid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">UUID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的生成简单到只有一行代码，输出结果 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">c2b8c2b9e46c47e3b30dca3b0d447718</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，但</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">UUID却并不适用于实际的业务需求</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。像用作订单号</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">UUID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">这样的字符串</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">没有丝毫的意义</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，看不出</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">和订单相关的有用信息</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">；而对于数据库来说用作业务</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">主键ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，它不仅是太长还是字符串，存储性能差查询也很耗时，所以不推荐用作</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">分布式ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">。</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优点：</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">生成足够简单，本地生成无网络消耗，具有唯一性</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">缺点：</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">无序的字符串，不具备趋势自增特性</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">没有具体的业务含义</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">长度过长16 字节128位，36位长度的字符串，存储以及查询对MySQL的性能消耗较大，MySQL官方明确建议主键要尽量越短越好，作为数据库主键 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">UUID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 的</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">无序性</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">会</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">导致数据位置频繁变动</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，严重影响性能。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="2-ji-yu-shu-ju-ku-zi-zeng-ID" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">2.基于数据库自增ID</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">基于数据库的</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">auto_increment</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">自增ID完全可以充当</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">分布式ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，具体实现：需要</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">一个单独的MySQL实例</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">用来生成ID，建表结构如下：</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript"><span class="token constant">CREATE</span> <span class="token constant">DATABASE</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">SEQ_ID</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+<span class="token constant">CREATE</span> <span class="token constant">TABLE</span> <span class="token constant">SEQID</span><span class="token punctuation">.</span><span class="token constant">SEQUENCE_ID</span> <span class="token punctuation">(</span>
+    id <span class="token function">bigint</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> unsigned <span class="token constant">NOT</span> <span class="token constant">NULL</span> auto_increment<span class="token punctuation">,</span> 
+    value <span class="token function">char</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token keyword">default</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    <span class="token constant">PRIMARY</span> <span class="token constant">KEY</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span> <span class="token constant">ENGINE</span><span class="token operator">=</span>MyISAM<span class="token punctuation">;</span>
+insert into <span class="token constant">SEQUENCE_ID</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>  <span class="token constant">VALUES</span> <span class="token punctuation">(</span><span class="token string">'values'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">当我们需要一个ID的时候，向表中插入一条记录返回</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">主键ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，但这种方式有一个比较致命的缺点，访问量激增时MySQL本身就是系统的瓶颈，用它来实现分布式服务风险比较大，不推荐！</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优点：</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">实现简单，ID单调自增，数值类型查询速度快</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">缺点：</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">DB单点存在宕机风险，无法扛住高并发场景</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="3-ji-yu-shu-ju-ku-ji-qun-mo-shi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">3.基于数据库集群模式</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">前边说了</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">单点数据库方式不可取</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，那对上边的方式做一些高可用优化，换成主从模式集群。害怕一个主节点挂掉没法用，那就做双主模式集群，也就是两个Mysql实例都能单独的生产自增ID。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">那这样还会有个问题，两个MySQL实例的自增ID都从1开始，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">会生成重复的ID怎么办？</span>
+    </strong>
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">解决方案</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：设置</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">起始值</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">和</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">自增步长</code>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">MySQL_1 配置：</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript">set @@auto_increment_offset <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>     <span class="token operator">--</span> 起始值
+set @@auto_increment_increment <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>  <span class="token operator">--</span> 步长</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">MySQL_2 配置：</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript">set @@auto_increment_offset <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>     <span class="token operator">--</span> 起始值
+set @@auto_increment_increment <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>  <span class="token operator">--</span> 步长</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">这样两个MySQL实例的自增ID分别就是：</span>
+    
+        <div class="space-y-4"></div>
+    <div class="pl-4 my-2 border-l-4 border-gray-200 dark:border-gray-700">
+            <div class="py-1">
+        <span class="text-base text-gray-700 leading-7 my-2">1、3、5、7、9</span>
+    </div>
+<div class="py-1">
+        <span class="text-base text-gray-700 leading-7 my-2">2、4、6、8、10</span>
+    </div>
+        </div>
+        <span class="text-base text-gray-700 leading-7 my-2">那如果集群后的性能还是扛不住高并发咋办？就要进行MySQL扩容增加节点，这是一个比较麻烦的事。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="w-full h-full relative">
+            <style>
+                @keyframes loading-spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                .loading-flower {
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid #e5e7eb;
+                    border-top-color: #6b7280;
+                    border-radius: 50%;
+                    animation: loading-spin 0.8s linear infinite;
+                }
+                .dark .loading-flower {
+                    border-color: #4b5563;
+                    border-top-color: #9ca3af;
+                }
+            </style>
+            
+            <!-- 加载动画 -->
+            <div class="loading-indicator absolute inset-0 flex items-center justify-center">
+                <div class="loading-flower"></div>
+            </div>
+            
+            <!-- 图片 -->
+            <img src="https://segmentfault.com/img/remote/1460000021759476" 
+                 alt="在这里插入图片描述" class="max-w-full h-auto my-1"
+                 style="opacity: 0; "
+                 onload="this.style.opacity = 1; this.previousElementSibling.style.display = 'none'"
+                 onerror="this.parentElement.innerHTML = '<div class='text-red-500 dark:text-red-400'>图片加载失败</div>'"
+                 class="transition-opacity duration-300 max-w-full h-auto my-1"/>
+        </div>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">从上图可以看出，水平扩展的数据库集群，有利于解决数据库单点压力的问题，同时为了ID生成特性，将自增步长按照机器数量来设置。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">增加第三台</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">MySQL</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">实例需要人工修改一、二两台</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">MySQL实例</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的起始值和步长，把</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">第三台机器的ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">起始生成位置设定在比现有</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">最大自增ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的位置远一些，但必须在一、二两台</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">MySQL实例</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">ID还没有增长到</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">第三台MySQL实例</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">起始ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">值的时候，否则</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">自增ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">就要出现重复了，</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">必要时可能还需要停机修改</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">。</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">优点：</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">解决DB单点问题</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">缺点：</span>
+    </strong>
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">不利于后续扩容，而且实际上单个数据库自身压力还是大，依旧无法满足高并发场景。</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="4-ji-yu-shu-ju-ku-de-hao-duan-mo-shi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">4.基于数据库的号段模式</span>
+    </div>
+        </div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">是当下分布式ID生成器的</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">主流实现</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">方式之一，号段模式可以理解为从</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">数据库批量的获取自增ID</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，每次从数据库取出一个号段范围，例如 (1,1000] 代表1000个ID，具体的业务服务将本号段，生成1~1000的自增ID并加载到内存。表结构如下：</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript"><span class="token constant">CREATE</span> <span class="token constant">TABLE</span> <span class="token function">id_generator</span> <span class="token punctuation">(</span>
+  id <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span><span class="token punctuation">,</span>
+  max_id <span class="token function">bigint</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">COMMENT</span> <span class="token string">'当前最大id'</span><span class="token punctuation">,</span>
+  step <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">COMMENT</span> <span class="token string">'号段的布长'</span><span class="token punctuation">,</span>
+  biz_type    <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">COMMENT</span> <span class="token string">'业务类型'</span><span class="token punctuation">,</span>
+  version <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">COMMENT</span> <span class="token string">'版本号'</span><span class="token punctuation">,</span>
+  <span class="token constant">PRIMARY</span> <span class="token constant">KEY</span> <span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">id</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> </code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">biz_type ：代表不同业务类型</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">max_id ：当前最大的可用id</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">step ：代表号段的长度</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">version ：是一个乐观锁，每次都更新version，保证并发时数据的正确性</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="space-y-4">
+            <div class="relative overflow-x-auto shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">id</span>
+    
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">biz_type</span>
+    
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">max_id</span>
+    
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">step</span>
+    
+                                </th>
+                            
+                                <th scope="col" class="px-3.5 py-1 text-left">
+                                    
+        <span class="text-base text-gray-700 leading-7 my-2">version</span>
+    
+                                </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">1</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">101</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">1000</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">2000</span>
+    
+                                    </td>
+                                
+                                    <td class="px-3 py-1.5 text-left">
+                                        
+        <span class="text-base text-gray-700 leading-7 my-2">0</span>
+    
+                                    </td>
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">等这批号段ID用完</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">，再次向数据库申请新号段，对</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">max_id</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">字段做一次</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">update</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">操作，</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">update max_id= max_id + step</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，update成功则说明新号段获取成功，新的号段范围是</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">(max_id ,max_id +step]</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">。</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript">update id_generator <span class="token keyword">set</span> max_id <span class="token operator">=</span> #<span class="token punctuation">{</span>max_id<span class="token operator">+</span>step<span class="token punctuation">}</span><span class="token punctuation">,</span> version <span class="token operator">=</span> version <span class="token operator">+</span> <span class="token number">1</span> where version <span class="token operator">=</span> # <span class="token punctuation">{</span>version<span class="token punctuation">}</span> and biz_type <span class="token operator">=</span> <span class="token constant">XXX</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">由于==</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">多业务端可能同时操作，所以采用版本号</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">version</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">乐观锁方式更新</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">==，这种</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">分布式ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">生成方式不强依赖于数据库，不会频繁的访问数据库，对数据库的压力小很多。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="5-ji-yu-Redis-mo-shi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">5.基于Redis模式</span>
+    </div>
+        </div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">也同样可以实现，原理就是利用</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">incr</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">命令实现ID的原子性自增。</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript"><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">:</span><span class="token number">6379</span><span class="token operator">></span> <span class="token keyword">set</span> seq_id <span class="token number">1</span>     <span class="token comment">// 初始化自增ID为1</span>
+<span class="token constant">OK</span>
+<span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">:</span><span class="token number">6379</span><span class="token operator">></span> incr seq_id      <span class="token comment">// 增加1，并返回递增后的数值</span>
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">2</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">用</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">实现需要注意一点，要考虑到redis持久化的问题。</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">有两种持久化方式</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">RDB</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">和</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">AOF</code>
+    
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">RDB</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">会定时打一个快照进行持久化，假如连续自增但</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">没及时持久化，而这会Redis挂掉了，重启Redis后会出现ID重复的情况。</span>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">AOF</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">会对每条写命令进行持久化，即使</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">挂掉了也不会出现ID重复的情况，但由于incr命令的特殊性，会导致</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Redis</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">重启恢复的数据时间过长。</span>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-md sm:text-lg font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-md [&_span]:sm:!text-lg">
+            <div id="6-ji-yu-xue-hua-suan-fa-Snowflake-mo-shi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">6、基于雪花算法（Snowflake）模式</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">雪花算法（Snowflake）是twitter公司内部分布式项目采用的ID生成算法，开源后广受国内大厂的好评，在该算法影响下各大公司相继开发出各具特色的分布式生成器。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="w-full h-full relative">
+            <style>
+                @keyframes loading-spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                .loading-flower {
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid #e5e7eb;
+                    border-top-color: #6b7280;
+                    border-radius: 50%;
+                    animation: loading-spin 0.8s linear infinite;
+                }
+                .dark .loading-flower {
+                    border-color: #4b5563;
+                    border-top-color: #9ca3af;
+                }
+            </style>
+            
+            <!-- 加载动画 -->
+            <div class="loading-indicator absolute inset-0 flex items-center justify-center">
+                <div class="loading-flower"></div>
+            </div>
+            
+            <!-- 图片 -->
+            <img src="https://segmentfault.com/img/remote/1460000021759479" 
+                 alt="在这里插入图片描述" class="max-w-full h-auto my-1"
+                 style="opacity: 0; "
+                 onload="this.style.opacity = 1; this.previousElementSibling.style.display = 'none'"
+                 onerror="this.parentElement.innerHTML = '<div class='text-red-500 dark:text-red-400'>图片加载失败</div>'"
+                 class="transition-opacity duration-300 max-w-full h-auto my-1"/>
+        </div>
+    
+        <div class="space-y-4"></div>
+    <div class="pl-4 my-2 border-l-4 border-gray-200 dark:border-gray-700">
+            <div class="py-1">
+        <span class="text-base text-gray-700 leading-7 my-2">以上图片源自网络，如有侵权联系删除</span>
+    </div>
+        </div>
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">生成的是Long类型的ID，一个Long类型占8个字节，每个字节占8比特，也就是说一个Long类型占64个比特。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">Snowflake ID组成结构：</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">正数位</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">（占1比特）+ </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">时间戳</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">（占41比特）+ </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">机器ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">（占5比特）+ </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">数据中心</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">（占5比特）+ </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">自增值</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">（占12比特），总共64比特组成的一个Long类型。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <ul class="my-4 pl-8 list-disc">
+            <li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">第一个bit位（1bit）：Java中long的最高位是符号位代表正负，正数是0，负数是1，一般生成ID都为正数，所以默认为0。</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">时间戳部分（41bit）：毫秒级的时间，不建议存当前时间戳，而是用（当前时间戳 - 固定开始时间戳）的差值，可以使产生的ID从更小的值开始；41位的时间戳可以使用69年，(1L << 41) / (1000L </span>
+    <em>
+        <span class="text-base text-gray-700 leading-7 my-2">60</span>
+    </em>
+        <span class="text-base text-gray-700 leading-7 my-2"> 60 </span>
+    <em>
+        <span class="text-base text-gray-700 leading-7 my-2">24</span>
+    </em>
+        <span class="text-base text-gray-700 leading-7 my-2"> 365) = 69年</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">工作机器id（10bit）：也被叫做</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，这个可以灵活配置，机房或者机器号组合都可以。</span>
+    </li><li class="mb-2 text-gray-700">
+        <span class="text-base text-gray-700 leading-7 my-2">序列号部分（12bit），自增值支持同一毫秒内同一个节点可以生成4096个ID</span>
+    </li>
+        </ul>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">根据这个算法的逻辑，只需要将这个算法用Java语言实现出来，封装为一个工具方法，那么各个业务应用可以直接使用该工具方法来获取分布式ID，只需保证每个业务应用有自己的工作机器id即可，而不需要单独去搭建一个获取分布式ID的应用。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="7-bai-du-uidgenerator" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">7.百度（uid-generator）</span>
+    </div>
+        </div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uid-generator</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">是由百度技术部开发，项目GitHub地址 </span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://link.segmentfault.com/?enc=xaHKAq8XTQxzcSCGG7NnJQ%3D%3D.PcsbdyDkeD%2BFtjeFDOqwseIPHLWY%2FECVExUFR9sefFyHZqlTraUrYWT2Gf9FplGh"
+           target="_self"
+           title="">
+            https://github.com/baidu/uid-...
+        </a>
+    
+        <div class="space-y-4"></div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uid-generator</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">是基于</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">算法实现的，与原始的</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">算法不同在于，</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uid-generator</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">支持自</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">定义时间戳</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">、</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">工作机器ID</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">和 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">序列号</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 等各部分的位数，而且</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uid-generator</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">中采用用户自定义</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的生成策略。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uid-generator</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">需要与数据库配合使用，需要新增一个</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">WORKER_NODE</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">表。当应用启动时会向数据库表中去插入一条数据，插入成功后返回的自增ID就是该机器的</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">数据由host，port组成。</span>
+    
+        <div class="space-y-4"></div>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">对于</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">uid-generator</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> ID组成结构</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">：</span>
+    
+        <div class="space-y-4"></div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，占用了22个bit位，时间占用了28个bit位，序列化占用了13个bit位，需要注意的是，和原始的</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">不太一样，时间的单位是秒，而不是毫秒，</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">也不一样，而且同一应用每次重启就会消费一个</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">。</span>
+    
+        <div class="space-y-4"></div>
+    <div class="pl-4 my-2 border-l-4 border-gray-200 dark:border-gray-700">
+            <div class="py-1">
+        <span class="text-base text-gray-700 leading-7 my-2">参考文献</span>
+    </div>
+<div class="py-1">
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://link.segmentfault.com/?enc=VHg26LD3dEoV%2FIsUBs6SSQ%3D%3D.gTQgifZ1kn0EjY1QxChoPe%2FFyZsg%2FrT3KspujS5z3FFlO56vz6kUGH6YqJDHHdVjOYfWACnextbsZPASDY4O7aHMeNbHJIMQuAfoweimkGo%3D"
+           target="_self"
+           title="">
+            https://github.com/baidu/uid-...
+        </a>
+    </div>
+        </div>
+        <div class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-2xl [&_span]:sm:!text-3xl">
+            <div id="8-mei-tuan-Leaf" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">8.美团（Leaf）</span>
+    </div>
+        </div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Leaf</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">由美团开发，github地址：</span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://link.segmentfault.com/?enc=d5EjtPq1IXojt3XfAK36iA%3D%3D.tSzw4D71u9qpBO8fl0XJJjd102JNVFt8qY6ztX0AKp3q4QwAb8ARaToQdrokf5%2Bi"
+           target="_self"
+           title="">
+            https://github.com/Meituan-Di...
+        </a>
+    
+        <div class="space-y-4"></div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Leaf</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">同时支持</span>
+    <strong>
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式</span>
+    </strong>
+        <span class="text-base text-gray-700 leading-7 my-2">和</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">算法模式，可以切换使用。</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-md sm:text-lg font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-md [&_span]:sm:!text-lg">
+            <div id="hao-duan-mo-shi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式</span>
+    </div>
+        </div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">先导入源码 </span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://link.segmentfault.com/?enc=9lrOT09iq8Hrmgt9ya%2B76Q%3D%3D.X6Gr%2FZHclZnCxSLR%2FkeUhev%2Fn2ja6HiQN26aIkaitkNi5v5AVZXwjh6rGfGpGN1O"
+           target="_self"
+           title="">
+            https://github.com/Meituan-Di...
+        </a>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> ，在建一张表</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">leaf_alloc</code>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript"><span class="token constant">DROP</span> <span class="token constant">TABLE</span> <span class="token constant">IF</span> <span class="token constant">EXISTS</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">leaf_alloc</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+
+<span class="token constant">CREATE</span> <span class="token constant">TABLE</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">leaf_alloc</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">(</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">biz_tag</span><span class="token template-punctuation string">`</span></span> <span class="token function">varchar</span><span class="token punctuation">(</span><span class="token number">128</span><span class="token punctuation">)</span>  <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">DEFAULT</span> <span class="token string">''</span> <span class="token constant">COMMENT</span> <span class="token string">'业务key'</span><span class="token punctuation">,</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">max_id</span><span class="token template-punctuation string">`</span></span> <span class="token function">bigint</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">DEFAULT</span> <span class="token string">'1'</span> <span class="token constant">COMMENT</span> <span class="token string">'当前已经分配了的最大id'</span><span class="token punctuation">,</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">step</span><span class="token template-punctuation string">`</span></span> <span class="token function">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">COMMENT</span> <span class="token string">'初始步长，也是动态调整的最小步长'</span><span class="token punctuation">,</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">description</span><span class="token template-punctuation string">`</span></span> <span class="token function">varchar</span><span class="token punctuation">(</span><span class="token number">256</span><span class="token punctuation">)</span>  <span class="token constant">DEFAULT</span> <span class="token constant">NULL</span> <span class="token constant">COMMENT</span> <span class="token string">'业务key的描述'</span><span class="token punctuation">,</span>
+  <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">update_time</span><span class="token template-punctuation string">`</span></span> timestamp <span class="token constant">NOT</span> <span class="token constant">NULL</span> <span class="token constant">DEFAULT</span> <span class="token constant">CURRENT_TIMESTAMP</span> <span class="token constant">ON</span> <span class="token constant">UPDATE</span> <span class="token constant">CURRENT_TIMESTAMP</span> <span class="token constant">COMMENT</span> <span class="token string">'数据库维护的更新时间'</span><span class="token punctuation">,</span>
+  <span class="token constant">PRIMARY</span> <span class="token constant">KEY</span> <span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">biz_tag</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token constant">ENGINE</span><span class="token operator">=</span>InnoDB<span class="token punctuation">;</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">然后在项目中开启</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">号段模式</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，配置对应的数据库信息，并关闭</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">模式</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript">leaf<span class="token punctuation">.</span>name<span class="token operator">=</span>com<span class="token punctuation">.</span>sankuai<span class="token punctuation">.</span>leaf<span class="token punctuation">.</span>opensource<span class="token punctuation">.</span>test
+leaf<span class="token punctuation">.</span>segment<span class="token punctuation">.</span>enable<span class="token operator">=</span><span class="token boolean">true</span>
+leaf<span class="token punctuation">.</span>jdbc<span class="token punctuation">.</span>url<span class="token operator">=</span>jdbc<span class="token operator">:</span>mysql<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>localhost<span class="token operator">:</span><span class="token number">3306</span><span class="token operator">/</span>leaf_test<span class="token operator">?</span>useUnicode<span class="token operator">=</span><span class="token boolean">true</span><span class="token operator">&amp;</span>characterEncoding<span class="token operator">=</span>utf8<span class="token operator">&amp;</span>characterSetResults<span class="token operator">=</span>utf8
+leaf<span class="token punctuation">.</span>jdbc<span class="token punctuation">.</span>username<span class="token operator">=</span>root
+leaf<span class="token punctuation">.</span>jdbc<span class="token punctuation">.</span>password<span class="token operator">=</span>root
+
+leaf<span class="token punctuation">.</span>snowflake<span class="token punctuation">.</span>enable<span class="token operator">=</span><span class="token boolean">false</span>
+#leaf<span class="token punctuation">.</span>snowflake<span class="token punctuation">.</span>zk<span class="token punctuation">.</span>address<span class="token operator">=</span>
+#leaf<span class="token punctuation">.</span>snowflake<span class="token punctuation">.</span>port<span class="token operator">=</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">启动</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">leaf-server</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2"> 模块的 </span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">LeafServerApplication</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">项目就跑起来了</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式获取分布式自增ID的测试url ：http：//localhost：8080/api/segment/get/leaf-segment-test</span>
+    
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">监控号段模式：</span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://link.segmentfault.com/?enc=N08O%2F%2BCs%2Fn9Uh91qtXW5OA%3D%3D.Xx2PllxponKImNVM8KjgfWfIvbsZ8zmR7hNjfqYLIaY%3D"
+           target="_self"
+           title="">
+            http://localhost
+        </a>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">:8080/cache</span>
+    
+        <div class="space-y-4"></div>
+    
+        <div class="text-md sm:text-lg font-bold tracking-tight text-gray-900 dark:text-white my-3 [&_span]:!font-inherit [&_span]:!text-inherit [&_code]:!text-inherit [&_span]:!text-md [&_span]:sm:!text-lg">
+            <div id="snowflake-mo-shi" class="inline-flex items-center">
+        <span class="text-base text-gray-700 leading-7 my-2">snowflake模式</span>
+    </div>
+        </div>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Leaf</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的snowflake模式依赖于</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">ZooKeeper</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">，不同于</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">原始snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">算法也主要是在</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的生成上，</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Leaf</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">中</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">是基于</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">ZooKeeper</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">的顺序Id来生成的，每个应用在使用</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Leaf-snowflake</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">时，启动时都会都在</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">Zookeeper</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">中生成一个顺序Id，相当于一台机器对应一个顺序节点，也就是一个</span>
+    
+        <code class="bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded text-sm font-mono mx-1 inline-block max-w-full break-all whitespace-pre-wrap overflow-wrap-anywhere">workId</code>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">。</span>
+    <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
+            
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">javascript</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
+    
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-javascript">leaf<span class="token punctuation">.</span>snowflake<span class="token punctuation">.</span>enable<span class="token operator">=</span><span class="token boolean">true</span>
+leaf<span class="token punctuation">.</span>snowflake<span class="token punctuation">.</span>zk<span class="token punctuation">.</span>address<span class="token operator">=</span><span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span>
+leaf<span class="token punctuation">.</span>snowflake<span class="token punctuation">.</span>port<span class="token operator">=</span><span class="token number">2181</span></code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-4"></div>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">snowflake模式获取分布式自增ID的测试url：</span>
+    
+        <a class="text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-200 cursor-pointer"
+           href="https://link.segmentfault.com/?enc=USkn5rDXxpXLh85UbQW7QQ%3D%3D.%2F%2FocOyAXVyEeDegwAflubpr6o5k2SCvUoOUG2B%2FDWuQ%3D"
+           target="_self"
+           title="">
+            http://localhost
+        </a>
+    
+        <span class="text-base text-gray-700 leading-7 my-2">:8080/api/snowflake/get/test</span>
+    
+        </div>
+
+        <div class="clear-both"></div>
+
+        <!-- Git 信息部分 -->
+        
+
+        <!-- 贡献者信息 -->
+        
+
+        <!-- 评论部分 -->
+        
+    </div>
+</div>
+                </article>
+            </main>
+
+            <!-- 右侧目录 -->
+            
+                <!-- 桌面端目录 -->
+<div class="hidden lg:block flex-none md:w-56 lg:w-64 pl-8 mr-8">
+    <div class="sticky" style="top: calc(var(--header-height) + 1rem)">
+        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">目录</div>
+        <div class="overflow-y-auto overflow-x-auto pr-4 pageforge-scrollbar"
+             style="max-height: calc(100vh - var(--header-height) - 8rem);">
+            <nav class="space-y-1 inline-block min-w-full"
+                 id="table-of-contents">
+                
+                
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#shen-me-shi-fen-bu-shi-ID"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="shen-me-shi-fen-bu-shi-ID">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">什么是分布式ID？</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-8 inline-block min-w-full">
+                            <a href="#fen-bu-shi-ID-man-zu-nei-xie-tiao-jian"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="fen-bu-shi-ID-man-zu-nei-xie-tiao-jian">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">分布式ID满足哪些条件</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#fen-bu-shi-ID-de-sheng-cheng-fang-fa"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="fen-bu-shi-ID-de-sheng-cheng-fang-fa">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">分布式ID的生成方法</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#1UUID"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="1UUID">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">1.UUID</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#2-ji-yu-shu-ju-ku-zi-zeng-ID"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="2-ji-yu-shu-ju-ku-zi-zeng-ID">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">2.基于数据库自增ID</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#3-ji-yu-shu-ju-ku-ji-qun-mo-shi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="3-ji-yu-shu-ju-ku-ji-qun-mo-shi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">3.基于数据库集群模式</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#4-ji-yu-shu-ju-ku-de-hao-duan-mo-shi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="4-ji-yu-shu-ju-ku-de-hao-duan-mo-shi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">4.基于数据库的号段模式</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#5-ji-yu-Redis-mo-shi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="5-ji-yu-Redis-mo-shi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">5.基于Redis模式</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-16 inline-block min-w-full">
+                            <a href="#6-ji-yu-xue-hua-suan-fa-Snowflake-mo-shi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="6-ji-yu-xue-hua-suan-fa-Snowflake-mo-shi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">6、基于雪花算法（Snowflake）模式</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#7-bai-du-uidgenerator"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="7-bai-du-uidgenerator">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">7.百度（uid-generator）</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-4 inline-block min-w-full">
+                            <a href="#8-mei-tuan-Leaf"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="8-mei-tuan-Leaf">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">8.美团（Leaf）</span>
+    
+                            </a>
+                        </div>
+                        
+                            
+                    
+                        <div class="pl-16 inline-block min-w-full">
+                            <a href="#hao-duan-mo-shi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="hao-duan-mo-shi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                        <div class="pl-16 inline-block min-w-full">
+                            <a href="#snowflake-mo-shi"
+                               class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                               data-slug="snowflake-mo-shi">
+                                
+        <span class="text-base text-gray-700 leading-7 my-2">snowflake模式</span>
+    
+                            </a>
+                        </div>
+                        
+                    
+                
+                        
+                    
+                
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- 移动端目录按钮 -->
+<button id="toc-mobile-trigger"
+        class="lg:hidden fixed right-4 bottom-4 z-20 bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg"
+        onclick="document.getElementById('toc-mobile').classList.toggle('translate-y-full')">
+    <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+    </svg>
+</button>
+
+<!-- 移动端目录 -->
+<div id="toc-mobile"
+     class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white dark:bg-gray-800
+                transform translate-y-full transition duration-200 ease-in-out
+                p-4 rounded-t-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">目录</h3>
+        <button onclick="document.getElementById('toc-mobile').classList.add('translate-y-full')"
+                class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="overflow-y-auto overflow-x-auto"
+         style="max-height: calc(60vh - var(--header-height));">
+        <nav class="space-y-1 inline-block min-w-full">
+            
+            
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#shen-me-shi-fen-bu-shi-ID"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="shen-me-shi-fen-bu-shi-ID">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">什么是分布式ID？</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-8 inline-block min-w-full">
+                        <a href="#fen-bu-shi-ID-man-zu-nei-xie-tiao-jian"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="fen-bu-shi-ID-man-zu-nei-xie-tiao-jian">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">分布式ID满足哪些条件</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#fen-bu-shi-ID-de-sheng-cheng-fang-fa"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="fen-bu-shi-ID-de-sheng-cheng-fang-fa">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">分布式ID的生成方法</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#1UUID"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="1UUID">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">1.UUID</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#2-ji-yu-shu-ju-ku-zi-zeng-ID"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="2-ji-yu-shu-ju-ku-zi-zeng-ID">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">2.基于数据库自增ID</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#3-ji-yu-shu-ju-ku-ji-qun-mo-shi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="3-ji-yu-shu-ju-ku-ji-qun-mo-shi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">3.基于数据库集群模式</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#4-ji-yu-shu-ju-ku-de-hao-duan-mo-shi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="4-ji-yu-shu-ju-ku-de-hao-duan-mo-shi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">4.基于数据库的号段模式</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#5-ji-yu-Redis-mo-shi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="5-ji-yu-Redis-mo-shi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">5.基于Redis模式</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-16 inline-block min-w-full">
+                        <a href="#6-ji-yu-xue-hua-suan-fa-Snowflake-mo-shi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="6-ji-yu-xue-hua-suan-fa-Snowflake-mo-shi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">6、基于雪花算法（Snowflake）模式</span>
+    
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#7-bai-du-uidgenerator"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="7-bai-du-uidgenerator">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">7.百度（uid-generator）</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-4 inline-block min-w-full">
+                        <a href="#8-mei-tuan-Leaf"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="8-mei-tuan-Leaf">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">8.美团（Leaf）</span>
+    
+                        </a>
+                    </div>
+                    
+                        
+                
+                    <div class="pl-16 inline-block min-w-full">
+                        <a href="#hao-duan-mo-shi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="hao-duan-mo-shi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">号段模式</span>
+    
+                        </a>
+                    </div>
+                    
+                
+                    <div class="pl-16 inline-block min-w-full">
+                        <a href="#snowflake-mo-shi"
+                           class="block px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors duration-150 toc-link whitespace-nowrap"
+                           data-slug="snowflake-mo-shi">
+                            
+        <span class="text-base text-gray-700 leading-7 my-2">snowflake模式</span>
+    
+                        </a>
+                    </div>
+                    
+                
+            
+                    
+                
+            
+        </nav>
+    </div>
+</div>
+
+<!-- 控制脚本 -->
+<script>
+    const tocMobile = document.getElementById('toc-mobile');
+    const tocMobileTrigger = document.getElementById('toc-mobile-trigger');
+
+    tocMobileTrigger.addEventListener('click', () => {
+        tocMobile.classList.remove('translate-y-full');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!tocMobile.contains(e.target) &&
+            !tocMobileTrigger.contains(e.target) &&
+            !tocMobile.classList.contains('translate-y-full')) {
+            tocMobile.classList.add('translate-y-full');
+        }
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        
+
+<footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div class="flex flex-col md:flex-row md:justify-between gap-8">
+            <!-- Logo 和描述部分 -->
+            <div class="md:w-1/3">
+                
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <a href="/" class="flex items-center">
+                            <img src="/assets/obito.svg"
+                                 alt="H3rwau的个人笔记和随笔"
+                                 class="h-12">
+                        </a>
+                        <a href="/"
+                           class="text-xl font-bold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+                            
+                        </a>
+                    </div>
+                
+
+                <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                    Seeking realistic romanticism in the ridiculous world.
+                </div>
+            </div>
+
+            <!-- 链接部分 -->
+            
+        </div>
+
+        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
+        <!-- 底部版权和社交链接 -->
+        <div class="flex flex-col items-center sm:flex-row sm:items-center justify-between gap-4">
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+                 使用 ❤️ <a href="https://pageforge.devlive.org" class="hover:text-blue-600" target="_blank">PageForge</a> 构建
+
+                
+            </span>
+
+            
+                <div class="flex items-center gap-4">
+                    
+
+                    
+
+                    
+
+                    
+                        <a href="https://github.com/H3rwau"
+                           class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                           target="_blank">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                      d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                            <span class="sr-only">GitHub</span>
+                        </a>
+                    
+                </div>
+            
+        </div>
+    </div>
+</footer>
+    
+</div>
+
+<!-- 返回顶部按钮 -->
+
+
+<!-- 遮罩层 -->
+
+    <div class="md:hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-20 hidden"
+         id="sidebar-overlay"
+         onclick="document.getElementById('sidebar-menu').classList.add('-translate-x-full');
+                  this.classList.add('hidden');">
+    </div>
+
+</body>
+
+<!-- 基础脚本文件 -->
+<script src="/assets/pageforge.min.js"></script>
+
+<script>
+    // 移动端侧边栏打开时显示遮罩
+    document.querySelector('[onclick*="sidebar-menu"]').addEventListener('click', function () {
+        document.getElementById('sidebar-overlay').classList.remove('hidden');
+    });
+</script>
+
+<!-- 加载主题配置中的额外 JS 文件 -->
+
+
+<!-- 是否启用 Lucide 图标库 -->
+
+</html>
