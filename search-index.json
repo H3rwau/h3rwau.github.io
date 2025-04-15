@@ -24,6 +24,12 @@
     "lang": ""
   },
   {
+    "title": "树状数组",
+    "content": "--- title: 树状数组 --- 给你一个数组，如何快速地计算任意一段连续子数组的元素和？ 我们可以马上想到使用前缀和。 但是，如果还可以修改数组中的元素呢？ 比如我把下标为 1 的元素修改了，由于所有前缀都包含下标 1，那么就需要更新所有前缀的元素和，更新操作就需要 O(n) 的时间，这太慢了。 能不能把前缀 [1,i] 拆分成若干段连续子数组呢？ 如果拆分得太细，比如拆分成 [1,1],[2,2],[3,3],⋯，虽然更新是 O(1) 的，但计算子数组元素和还是得遍历累加，时间复杂度是 O(n)，太慢了。 如何平衡询问和更新的时间复杂度呢？ 关键在于如何拆分子数组（区间）。 能否把任意前缀拆分成若干个关键区间，使得更新操作也只会更新若干个关键区间？ 这样回答询问时，只需要遍历并累加若干个关键区间的元素和。更新元素时，也只需要遍历并更新若干个关键区间的元素和。 树状数组介绍 tree[i] 存储的是从 i-lowbit(i)+1 到 i 这个区间内所有原始数组元素的和 (数组下标从1开始) cpp class NumArray { public: vector<int> nums; vector<int> tree; int prefixSum(int i){ int s =0; for(;i>0;i-=i&-i){ s+=tree[i]; } return s; } NumArray(vector<int>& nums):nums(nums),tree(nums.size()+1){ // for (int i = 0; i < nums.size(); i++) { // update(i, nums[i]); // } for (int i = 1; i <= nums.size(); i++) { tree[i] += nums[i - 1]; int nxt = i + (i & -i); // 下一个关键区间的右端点 if (nxt <= nums.size()) { tree[nxt] += tree[i]; } } } void update(int index, int val) { int delta = val - nums[index]; nums[index] = val; for (int i = index + 1; i < tree.size(); i += i & -i) { tree[i] += delta; } } int sumRange(int left, int right) { return prefixSum(right+1)-prefixSum(left); } };",
+    "url": "/算法/树状数组.html",
+    "lang": ""
+  },
+  {
     "title": "C++核心技术：C++惯用法",
     "content": "--- title: C++核心技术：C++惯用法 --- C++里有个惯用法，可以利用拷贝构造函数和交换函数(swap)来实现赋值运算符，在有了移动构造函数之后，这个惯用法还有一个额外的好处，既可以用一个赋值函数同时完成拷贝赋值和移动赋值两个动作。 c++ //例如，一个string类的赋值运算符可以这样实现: class string{ public : ..... String& operator=(String rhs){ rhs.swap(this);//不需要考虑自复制的情况了 return this; } void swap(String& rhs)noexcept{ using std::swap; swap(data,rhs.data); swap(size,rhs.size); swap(capacity, rhs.capacity); } private: unique ptr<char[]> data {}; sizet size{}; sizet capacity{}; }; 但是对于左值的赋值来说，会在有重复赋值时每次都去分配内存，产生不必要的开销 对于上面的String类，这样实现会更好 c++ class string { public: string& operator=(const String& rhs){ if(this != &rhs){ if(capacity<rhs.size ){ data =makeunique<char[]>(rhs.size+ 1); capacity=rhs.size ; } memcpy(data .get(),rhs.data.get()，rhs.size+ 1); size =rhs.size ; } return this; } String& operator=(String&& rhs)noexcept{ String(std::move(rhs)).swap(this); return this; } //如果使用频率很高，推荐进行这样的优化",
     "url": "/c++/C++核心技术：C++惯用法.html",
