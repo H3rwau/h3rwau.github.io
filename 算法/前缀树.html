@@ -776,14 +776,14 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <span>1 分钟阅读</span>
+        <span>3 分钟阅读</span>
         
             <span class="mx-1">•</span>
             <span>
                 
                 
                 
-                    85 词
+                    503 词
                 
             </span>
         
@@ -800,54 +800,69 @@
 
         <!-- 主要内容部分 -->
         <div class="prose prose-gray dark:prose-invert max-w-none text-base">
+            <div class="!block !w-full !bg-gray-100 !dark:bg-gray-800 !dark:text-gray-300 !text-gray-900 !my-3 !rounded !font-mono !leading-normal !overflow-hidden !relative">
             
-        <div class="space-y-4"></div>
-    <pre><code class="language-c++">class Trie {
-public:
-vector&lt;Trie*&gt; children;
-bool isEnd;
-    Trie() 
-    :children(26)
-    ,isEnd(false)
-    {
-
-    }
-    Trie * searchPrefix(string prefix){
-        Trie * node =this;
-        for(char ch:prefix){
-            ch-=&#39;a&#39;;
-            if(node-&gt;children[ch]==nullptr){
-                return nullptr;
-            }
-            node =node-&gt;children[ch];
-        }
-        return node;
-    }
-
-    void insert(string word) {
-        Trie * node =this;
-        for(char ch:word){
-            ch -=&#39;a&#39;;
-            if(node-&gt;children[ch]==nullptr){
-                node-&gt;children[ch]=new Trie();
-            }
-            node = node-&gt;children[ch];
-        }
-        node-&gt;isEnd=true;;
-    }
+            <div class="!absolute !right-12 !top-2 !text-sm !text-gray-500 !dark:text-gray-400 !bg-gray-100 !dark:bg-gray-800 !z-10">cpp</div>
+            
+        <button onclick="window.PageForge.CodeCopy.copy(this)" class="!absolute !right-2 !top-1 !p-1 !rounded !text-gray-400 hover:!text-blue-600 !dark:text-gray-500 hover:!dark:text-blue-300 !transition-colors !duration-200 !z-10">
+            <svg class="copy-icon !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <svg class="check-icon !hidden !w-5 !h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        </button>
     
-    bool search(string word) {
-        Trie * node =this-&gt;searchPrefix(word);
-        return node !=nullptr&amp;&amp;node-&gt;isEnd;
-    }
-    
-    bool startsWith(string prefix) {
-        Trie * node = searchPrefix(prefix);
-        return node!=nullptr;
-    }
-};
-</code></pre>
+            <div class="!overflow-x-auto !flex">
+                
+                <div class="!flex-1">
+                    <pre class="!px-3 !py-2.5 !m-0"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Trie</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+vector<span class="token operator">&lt;</span>Trie<span class="token operator">*</span><span class="token operator">></span> children<span class="token punctuation">;</span>
+<span class="token keyword">bool</span> isEnd<span class="token punctuation">;</span>
+    <span class="token function">Trie</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+    <span class="token operator">:</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token number">26</span><span class="token punctuation">)</span>
+    <span class="token punctuation">,</span><span class="token function">isEnd</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
 
+    <span class="token punctuation">}</span>
+    Trie <span class="token operator">*</span> <span class="token function">searchPrefix</span><span class="token punctuation">(</span>string prefix<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        Trie <span class="token operator">*</span> node <span class="token operator">=</span><span class="token keyword">this</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">char</span> ch<span class="token operator">:</span>prefix<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            ch<span class="token operator">-=</span><span class="token char">'a'</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>node<span class="token operator">-></span>children<span class="token punctuation">[</span>ch<span class="token punctuation">]</span><span class="token operator">==</span><span class="token keyword">nullptr</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            node <span class="token operator">=</span>node<span class="token operator">-></span>children<span class="token punctuation">[</span>ch<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span>string word<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Trie <span class="token operator">*</span> node <span class="token operator">=</span><span class="token keyword">this</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">char</span> ch<span class="token operator">:</span>word<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            ch <span class="token operator">-=</span><span class="token char">'a'</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>node<span class="token operator">-></span>children<span class="token punctuation">[</span>ch<span class="token punctuation">]</span><span class="token operator">==</span><span class="token keyword">nullptr</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                node<span class="token operator">-></span>children<span class="token punctuation">[</span>ch<span class="token punctuation">]</span><span class="token operator">=</span><span class="token keyword">new</span> <span class="token function">Trie</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            node <span class="token operator">=</span> node<span class="token operator">-></span>children<span class="token punctuation">[</span>ch<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        node<span class="token operator">-></span>isEnd<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">bool</span> <span class="token function">search</span><span class="token punctuation">(</span>string word<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Trie <span class="token operator">*</span> node <span class="token operator">=</span><span class="token keyword">this</span><span class="token operator">-></span><span class="token function">searchPrefix</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> node <span class="token operator">!=</span><span class="token keyword">nullptr</span><span class="token operator">&amp;&amp;</span>node<span class="token operator">-></span>isEnd<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">bool</span> <span class="token function">startsWith</span><span class="token punctuation">(</span>string prefix<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Trie <span class="token operator">*</span> node <span class="token operator">=</span> <span class="token function">searchPrefix</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> node<span class="token operator">!=</span><span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+                </div>
+            </div>
+        </div>
         </div>
 
         <div class="clear-both"></div>
