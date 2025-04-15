@@ -18,6 +18,12 @@
     "lang": ""
   },
   {
+    "title": "前缀树",
+    "content": "--- title: 前缀树(Trie) --- c++ class Trie { public: vector<Trie> children; bool isEnd; Trie() :children(26) ,isEnd(false) { } Trie searchPrefix(string prefix){ Trie node =this; for(char ch:prefix){ ch-='a'; if(node->children[ch]==nullptr){ return nullptr; } node =node->children[ch]; } return node; } void insert(string word) { Trie node =this; for(char ch:word){ ch -='a'; if(node->children[ch]==nullptr){ node->children[ch]=new Trie(); } node = node->children[ch]; } node->isEnd=true;; } bool search(string word) { Trie node =this->searchPrefix(word); return node !=nullptr&&node->isEnd; } bool startsWith(string prefix) { Trie node = searchPrefix(prefix); return node!=nullptr; } };",
+    "url": "/算法/前缀树.html",
+    "lang": ""
+  },
+  {
     "title": "C++核心技术：C++惯用法",
     "content": "--- title: C++核心技术：C++惯用法 --- C++里有个惯用法，可以利用拷贝构造函数和交换函数(swap)来实现赋值运算符，在有了移动构造函数之后，这个惯用法还有一个额外的好处，既可以用一个赋值函数同时完成拷贝赋值和移动赋值两个动作。 c++ //例如，一个string类的赋值运算符可以这样实现: class string{ public : ..... String& operator=(String rhs){ rhs.swap(this);//不需要考虑自复制的情况了 return this; } void swap(String& rhs)noexcept{ using std::swap; swap(data,rhs.data); swap(size,rhs.size); swap(capacity, rhs.capacity); } private: unique ptr<char[]> data {}; sizet size{}; sizet capacity{}; }; 但是对于左值的赋值来说，会在有重复赋值时每次都去分配内存，产生不必要的开销 对于上面的String类，这样实现会更好 c++ class string { public: string& operator=(const String& rhs){ if(this != &rhs){ if(capacity<rhs.size ){ data =makeunique<char[]>(rhs.size+ 1); capacity=rhs.size ; } memcpy(data .get(),rhs.data.get()，rhs.size+ 1); size =rhs.size ; } return this; } String& operator=(String&& rhs)noexcept{ String(std::move(rhs)).swap(this); return this; } //如果使用频率很高，推荐进行这样的优化",
     "url": "/c++/C++核心技术：C++惯用法.html",
